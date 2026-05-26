@@ -1,6 +1,7 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -13,6 +14,24 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
   ]),
+
+  {
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
+    rules: {
+      // Import sorting
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
+
+      // Light hygiene (optional but nice)
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-debugger": "warn",
+      eqeqeq: ["error", "smart"],
+      "prefer-const": "error",
+      "object-shorthand": "error",
+    },
+  },
 ]);
 
 export default eslintConfig;

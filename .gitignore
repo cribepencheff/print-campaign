@@ -23,6 +23,7 @@
 # misc
 /docs
 .DS_Store
+.vscode
 *.pem
 
 # debug
