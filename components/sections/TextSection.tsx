@@ -1,15 +1,15 @@
-import { PortableText } from '@portabletext/react'
-import type { TextSection as TextSectionType } from '@/types/sections'
+import { PortableText } from "@portabletext/react";
+import type { TextSection as TextSectionType } from "@/types/sections";
 
-const bgClass: Record<NonNullable<TextSectionType['background']>, string> = {
-  white: 'bg-white',
-  gray: 'bg-gray-100',
-  dark: 'bg-gray-900 text-white',
-}
+const bgClass: Record<NonNullable<TextSectionType["background"]>, string> = {
+  white: "bg-white",
+  gray: "bg-gray-100",
+  dark: "bg-gray-900 text-white",
+};
 
 export function TextSection({ section }: { section: TextSectionType }) {
-  const bg = bgClass[section.background ?? 'white']
-  const align = section.alignment === 'center' ? 'text-center mx-auto' : ''
+  const bg = bgClass[section.background ?? "white"];
+  const align = section.alignment === "center" ? "text-center mx-auto" : "";
 
   return (
     <section className={`py-16 px-8 ${bg}`}>
@@ -24,5 +24,5 @@ export function TextSection({ section }: { section: TextSectionType }) {
         )}
       </div>
     </section>
-  )
+  );
 }
