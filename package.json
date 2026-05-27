@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "ts": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "deploy": "vercel build && vercel deploy --prebuilt"
   },
   "dependencies": {
     "@portabletext/types": "^4.0.2",
