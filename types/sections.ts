@@ -23,4 +23,11 @@ export type TextSection = {
   alignment?: "left" | "center";
 };
 
-export type Section = HeroSection | TextSection;
+export type FileUploadSection = {
+  _type: "fileUpload";
+  _key: string;
+  heading?: string;
+  description?: string;
+};
+
+export type Section = HeroSection | TextSection | FileUploadSection;
