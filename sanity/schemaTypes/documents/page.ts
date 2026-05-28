@@ -23,12 +23,22 @@ export const page = defineType({
       name: "content",
       title: "Innehåll",
       type: "array",
-      of: [{ type: "hero" }, { type: "textSection" }],
+      of: [{ type: "hero" }, { type: "textSection" }, { type: "fileUpload" }],
       validation: (Rule) =>
         Rule.custom((sections: Array<{ _type: string }> = []) => {
           const heroCount = sections.filter((s) => s._type === "hero").length;
+
+          // Hero rules
           if (heroCount > 1)
             return "Endast en hero-sektion per sida är tillåten.";
+
+          // File upload rules
+          if (
+            (sections?.filter((b) => b._type === "fileUpload").length ?? 0) > 1
+          )
+            return "Endast ett uppladdningsformulär per sida är tillåtet.";
+
+          // Default validation result
           return true;
         }),
     }),
