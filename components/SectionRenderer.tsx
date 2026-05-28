@@ -1,6 +1,7 @@
 import type { Section } from "@/types/sections";
 import { HeroSection } from "./sections/HeroSection";
 import { TextSection } from "./sections/TextSection";
+import { FileUploadSection } from "./sections/FileUploadSection";
 
 type SectionRegistry = {
   [SectionType in Section["_type"]]: React.ComponentType<{
@@ -11,6 +12,7 @@ type SectionRegistry = {
 const registry: SectionRegistry = {
   hero: HeroSection,
   textSection: TextSection,
+  fileUpload: FileUploadSection,
 };
 
 export function SectionRenderer({ sections }: { sections: Section[] }) {
