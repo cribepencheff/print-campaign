@@ -2,10 +2,12 @@
 
 import { useRef, useState } from "react";
 import type { FileUploadSection as FileUploadSectionType } from "@/types/sections";
-
-const ALLOWED_TYPES = ["image/png", "image/jpeg"];
-const ALLOWED_TYPES_TEXT = "PNG och JPG";
-const MAX_SIZE_MB = 5;
+import {
+  UPLOAD_ALLOWED_TYPES,
+  UPLOAD_ALLOWED_TYPES_TEXT,
+  UPLOAD_MAX_SIZE_MB,
+  UPLOAD_MAX_SIZE_BYTES,
+} from "@/lib/upload";
 
 export function FileUploadSection({
   section,
@@ -28,15 +30,15 @@ export function FileUploadSection({
       return;
     }
 
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      setError(`Endast ${ALLOWED_TYPES_TEXT} är tillåtet.`);
+    if (!UPLOAD_ALLOWED_TYPES.includes(file.type)) {
+      setError(`Endast ${UPLOAD_ALLOWED_TYPES_TEXT} är tillåtet.`);
       e.target.value = "";
       setPreview(null);
       setPreviewName(null);
       return;
     }
-    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-      setError(`Filen får max vara ${MAX_SIZE_MB} MB.`);
+    if (file.size > UPLOAD_MAX_SIZE_BYTES) {
+      setError(`Filen får max vara ${UPLOAD_MAX_SIZE_MB} MB.`);
       e.target.value = "";
       setPreview(null);
       setPreviewName(null);
@@ -130,7 +132,7 @@ export function FileUploadSection({
           <label className="block text-sm font-medium mb-1">
             Bild{" "}
             <span className="text-gray-400 font-normal">
-              ({ALLOWED_TYPES_TEXT}, max {MAX_SIZE_MB} MB)
+              ({UPLOAD_ALLOWED_TYPES_TEXT}, max {UPLOAD_MAX_SIZE_MB} MB)
             </span>
           </label>
 
@@ -139,7 +141,7 @@ export function FileUploadSection({
             id="file"
             type="file"
             name="file"
-            accept={ALLOWED_TYPES.join(",")}
+            accept={UPLOAD_ALLOWED_TYPES.join(",")}
             onChange={handleFileChange}
             className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded file:text-sm file:font-medium file:bg-black file:text-white cursor-pointer"
           />

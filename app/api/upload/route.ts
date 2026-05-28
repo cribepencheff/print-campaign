@@ -1,9 +1,7 @@
 import { createClient } from "@sanity/client";
 import { type NextRequest, NextResponse } from "next/server";
 import { apiVersion, dataset, projectId } from "@/sanity/env";
-
-const ALLOWED_TYPES = ["image/png", "image/jpeg"];
-const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB
+import { UPLOAD_ALLOWED_TYPES, UPLOAD_MAX_SIZE_BYTES } from "@/lib/upload";
 
 export async function POST(req: NextRequest) {
   if (!process.env.SANITY_API_WRITE_TOKEN) {
@@ -27,14 +25,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Ingen fil hittades." }, { status: 400 });
   }
 
-  if (!ALLOWED_TYPES.includes(file.type)) {
+  if (!UPLOAD_ALLOWED_TYPES.includes(file.type)) {
     return NextResponse.json(
       { error: "Endast PNG och JPG är tillåtna." },
       { status: 400 },
     );
   }
 
-  if (file.size > MAX_SIZE_BYTES) {
+  if (file.size > UPLOAD_MAX_SIZE_BYTES) {
     return NextResponse.json(
       { error: "Filen får max vara 5 MB." },
       { status: 400 },
