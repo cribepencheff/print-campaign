@@ -23,6 +23,22 @@ export type TextSection = {
   alignment?: "left" | "center";
 };
 
+export type Event = {
+  _id: string;
+  title?: string;
+  date?: string;
+  location?: string;
+  description?: string;
+};
+
+export type EventSection = {
+  _type: "eventList";
+  _key: string;
+  heading?: string;
+  description?: string;
+  events: Event[];
+};
+
 export type FileUploadSection = {
   _type: "fileUpload";
   _key: string;
@@ -30,4 +46,8 @@ export type FileUploadSection = {
   description?: string;
 };
 
-export type Section = HeroSection | TextSection | FileUploadSection;
+export type Section =
+  | HeroSection
+  | TextSection
+  | EventSection
+  | FileUploadSection;

@@ -14,7 +14,12 @@ export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0
     _type,
     _key,
     ...,
-    image { ..., alt, asset-> }
+    image { ..., alt, asset-> },
+    _type == "eventList" => {
+      "events": *[_type == "event"] | order(date asc) {
+        _id, title, date, location, description
+      }
+    }
   }
 }`;
 

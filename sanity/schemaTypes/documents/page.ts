@@ -23,7 +23,12 @@ export const page = defineType({
       name: "content",
       title: "Innehåll",
       type: "array",
-      of: [{ type: "hero" }, { type: "textSection" }, { type: "fileUpload" }],
+      of: [
+        { type: "hero" },
+        { type: "textSection" },
+        { type: "eventList" },
+        { type: "fileUpload" },
+      ],
       validation: (Rule) =>
         Rule.custom((sections: Array<{ _type: string }> = []) => {
           const heroCount = sections.filter((s) => s._type === "hero").length;

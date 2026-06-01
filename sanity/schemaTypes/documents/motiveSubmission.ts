@@ -19,7 +19,7 @@ export const motiveSubmission = defineType({
       options: {
         list: [
           { title: "Inkommna", value: "inkommen" },
-          { title: "Godkända", value: "godkand" },
+          { title: "Godkända", value: "godkänd" },
           { title: "Nekad", value: "nekad" },
         ],
         layout: "radio",

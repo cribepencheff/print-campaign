@@ -12,6 +12,11 @@ export const structure: StructureResolver = (S) =>
       S.divider(),
       S.divider(),
 
+      S.documentTypeListItem("event").title("Händelser"),
+
+      S.divider(),
+      S.divider(),
+
       S.divider().title("Motiv"),
 
       S.listItem()
