@@ -10,6 +10,13 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("page").title("Sidor"),
 
       S.divider(),
+
+      S.listItem()
+        .title("Gallerisida")
+        .child(
+          S.document().schemaType("galleryPage").documentId("galleryPage"),
+        ),
+
       S.divider(),
 
       S.documentTypeListItem("event").title("Händelser"),
