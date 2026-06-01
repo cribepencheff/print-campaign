@@ -25,8 +25,8 @@ export const eventList = defineType({
     }),
   ],
   preview: {
-    select: { title: "heading", eventCount: "events.length" },
-    prepare: ({ title, eventCount }) => ({
+    select: { title: "heading" },
+    prepare: ({ title }) => ({
       title: `Evenemangslista${title ? `: ${title}` : ""}`,
       subtitle: `Alla evenemang`,
     }),

@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "ts": "tsc --noEmit",
+    "ts": "tsc --project tsconfig.json --noEmit --incremental",
     "lint": "eslint .",
     "deploy": "vercel build && vercel deploy --prebuilt"
   },

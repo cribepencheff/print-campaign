@@ -31,7 +31,7 @@ export const event = defineType({
       name: "location",
       title: "Plats",
       type: "string",
-      description: 'T.ex. "Medborgarplatsen, Stockholm"',
+      description: 'T.ex. "Medborgarplatsen 29, 118 26 Stockholm"',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

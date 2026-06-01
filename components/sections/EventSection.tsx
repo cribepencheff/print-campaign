@@ -1,5 +1,5 @@
-import type { EventSection as EventSectionType } from "@/types/sections";
 import Link from "next/link";
+import type { EventSection as EventSectionType } from "@/types/sections";
 
 export function EventSection({ section }: { section: EventSectionType }) {
   return (

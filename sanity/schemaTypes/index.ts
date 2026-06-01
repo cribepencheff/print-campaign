@@ -1,15 +1,15 @@
 import { type SchemaTypeDefinition } from "sanity";
-import { settings } from "./singletons/settings";
 
-import { page } from "./documents/page";
-import { galleryPage } from "./documents/galleryPage";
 import { event } from "./documents/event";
+import { galleryPage } from "./documents/galleryPage";
 import { motiveSubmission } from "./documents/motiveSubmission";
+import { page } from "./documents/page";
 
-import { hero } from "./sections/hero";
-import { textSection } from "./sections/textSection";
 import { eventList } from "./sections/eventList";
 import { fileUpload } from "./sections/fileUpload";
+import { hero } from "./sections/hero";
+import { textSection } from "./sections/textSection";
+import { settings } from "./singletons/settings";
 
 import { blockContent } from "./ui/blockContent";
 import { simpleBlockContent } from "./ui/simpleBlockContent";
