@@ -48,6 +48,18 @@ export const SETTINGS_QUERY = `*[_type == "settings"][0]{
   description
 }`;
 
+// Gallerisida — singleton
+export const GALLERY_PAGE_QUERY = `*[_type == "galleryPage"][0]{
+  title,
+  description,
+  images[] {
+    _key,
+    alt,
+    caption,
+    asset->
+  }
+}`;
+
 // Alla slugs för generateStaticParams
 // Exkluderar "home" — det är index-routen (/), inte en /[slug]-sida
 export const ALL_SLUGS_QUERY = `*[
