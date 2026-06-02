@@ -1,6 +1,5 @@
 "use client";
 
-import { Image } from "next-sanity/image";
 import { useRef, useState } from "react";
 import {
   UPLOAD_ALLOWED_TYPES,
@@ -153,6 +152,7 @@ export function FileUploadSection({
           {previewName && (
             <div className="mt-3 relative inline-block">
               {preview && (
+                // eslint-disable-next-line @next/next/no-img-element -- blob URL from file preview, next/image doesn't support it
                 <img
                   src={preview}
                   alt="Förhandsgranskning"
