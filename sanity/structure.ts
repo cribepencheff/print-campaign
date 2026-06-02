@@ -1,64 +1,65 @@
-import type { StructureResolver } from 'sanity/structure';
-import { apiVersion } from './env';
+import {
+  Files,
+  Images,
+  CalendarDays,
+  SettingsIcon,
+  CircleDashedIcon,
+  CircleMinusIcon,
+  SmileIcon,
+} from "lucide-react";
+import type { StructureResolver } from "sanity/structure";
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
-	S.list()
-		.title('Innehåll')
+  S.list()
+    .title("Innehåll")
 
-		.items([
-			S.documentTypeListItem('page').title('Sidor'),
+    .items([
+      S.documentTypeListItem("page").title("Sidor").icon(Files),
 
-			S.divider(),
+      S.listItem()
+        .title("Gallerisida")
+        .icon(Images)
+        .child(
+          S.document().schemaType("galleryPage").documentId("galleryPage")
+        ),
 
-			S.listItem()
-				.title('Gallerisida')
-				.child(S.document().schemaType('galleryPage').documentId('galleryPage')),
+      S.documentTypeListItem("event").title("Händelser").icon(CalendarDays),
 
-			S.divider(),
+      S.divider(),
 
-			S.documentTypeListItem('event').title('Händelser'),
+      S.listItem()
+        .title("Motiv / Inkomna")
+        .icon(CircleDashedIcon)
+        .child(
+          S.documentTypeList("motiv")
+            .title("Motiv / Inkomna")
+            .filter('_type == "motiv" && status == $status')
+            .params({ status: "pending" })
+        ),
+      S.listItem()
+        .title("Motiv / Godkända")
+        .icon(SmileIcon)
+        .child(
+          S.documentTypeList("motiv")
+            .title("Motiv / Godkända")
+            .filter('_type == "motiv" && status == $status')
+            .params({ status: "approved" })
+        ),
+      S.listItem()
+        .title("Motiv / Nekad")
+        .icon(CircleMinusIcon)
+        .child(
+          S.documentTypeList("motiv")
+            .title("Motiv / Nekad")
+            .filter('_type == "motiv" && status == $status')
+            .params({ status: "rejected" })
+        ),
 
-			S.divider(),
-			S.divider(),
+      S.divider(),
 
-			S.divider().title('Motiv'),
-
-			S.listItem()
-				.title('Inkommen')
-				.child(
-					S.documentTypeList('motiv')
-						.title('Inkommen')
-						.filter('_type == "motiv" && status == "pending"')
-						.apiVersion(apiVersion)
-				),
-
-			S.listItem()
-				.title('Godkänd')
-				.schemaType('motiv')
-				.child(
-					S.documentTypeList('motiv')
-						.title('Godkänd')
-						.schemaType('motiv')
-						.filter('_type == "motiv" && status == "approved"')
-						.apiVersion(apiVersion)
-				),
-
-			S.listItem()
-				.title('Nekad')
-				.schemaType('motiv')
-				.child(
-					S.documentTypeList('motiv')
-						.title('Nekad')
-						.schemaType('motiv')
-						.filter('_type == "motiv" && status == "rejected"')
-						.apiVersion(apiVersion)
-				),
-
-			S.divider(),
-			S.divider(),
-
-			S.listItem()
-				.title('Webbplatsinställningar')
-				.child(S.document().schemaType('settings').documentId('settings')),
-		]);
+      S.listItem()
+        .title("Inställningar")
+        .icon(SettingsIcon)
+        .child(S.document().schemaType("settings").documentId("settings")),
+    ]);

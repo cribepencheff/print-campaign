@@ -4,7 +4,13 @@ export const motiveSubmission = defineType({
   name: "motiv",
   title: "Motiv",
   type: "document",
-  orderings: [], // Excludes custom orderings, rely on default ordering
+  orderings: [
+    {
+      title: "Not Published (Desc)",
+      name: "notPublishedFirst",
+      by: [{ field: "isPublished", direction: "asc" }],
+    },
+  ],
   fields: [
     defineField({
       name: "asset",
@@ -38,6 +44,7 @@ export const motiveSubmission = defineType({
       title: "Publicerad i galleri",
       type: "boolean",
       initialValue: false,
+      hidden: ({ document }) => document?.status !== "approved",
       validation: (rule) =>
         rule.custom((value, context) => {
           if (value && context.document?.status !== "approved") {
@@ -54,18 +61,22 @@ export const motiveSubmission = defineType({
       date: "uploadedAt",
       isPublished: "isPublished",
     },
-    prepare: ({ subtitle, media, date, isPublished }) => ({
-      title: date
+    prepare: ({ subtitle, media, date, isPublished }) => {
+      const formattedDate = date
         ? new Date(date as string).toLocaleString("sv-SE", {
             dateStyle: "short",
             timeStyle: "short",
           })
-        : "Bidrag",
-      subtitle:
-        subtitle === "approved"
-          ? `Godkänd${isPublished ? " (publicerad)" : " (ej publicerad)"}`
-          : "", // UUID in a near future, but for now just show status if approved
-      media,
-    }),
+        : "Unknown date";
+
+      return {
+        title: `${isPublished ? "✅ " : ""}${formattedDate}`,
+        subtitle:
+          subtitle === "approved"
+            ? `Godkänd${isPublished ? " (publicerad)" : " (ej publicerad)"}`
+            : "",
+        media,
+      };
+    },
   },
 });

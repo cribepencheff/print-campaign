@@ -1,9 +1,11 @@
+import { CalendarIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
 export const event = defineType({
   name: "event",
   title: "Händelse",
   type: "document",
+  icon: CalendarIcon,
   orderings: [
     {
       title: "Datum (nyast först)",
