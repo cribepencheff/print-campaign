@@ -1,8 +1,8 @@
 import type { Section } from "@/types/sections";
-import { HeroSection } from "./sections/HeroSection";
-import { TextSection } from "./sections/TextSection";
 import { EventSection } from "./sections/EventSection";
 import { FileUploadSection } from "./sections/FileUploadSection";
+import { HeroSection } from "./sections/HeroSection";
+import { TextSection } from "./sections/TextSection";
 
 type SectionRegistry = {
   [SectionType in Section["_type"]]: React.ComponentType<{

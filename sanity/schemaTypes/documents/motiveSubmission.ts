@@ -4,7 +4,13 @@ export const motiveSubmission = defineType({
   name: "motiv",
   title: "Motiv",
   type: "document",
-  orderings: [], // Excludes custom orderings, rely on default ordering
+  orderings: [
+    {
+      title: "Not Published (Desc)",
+      name: "notPublishedFirst",
+      by: [{ field: "isPublished", direction: "asc" }],
+    },
+  ],
   fields: [
     defineField({
       name: "asset",
@@ -18,13 +24,13 @@ export const motiveSubmission = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Inkommna", value: "inkommen" },
-          { title: "Godkända", value: "godkänd" },
-          { title: "Nekad", value: "nekad" },
+          { title: "Inkommen", value: "pending" },
+          { title: "Godkänd", value: "approved" },
+          { title: "Nekad", value: "rejected" },
         ],
         layout: "radio",
       },
-      initialValue: "inkommen",
+      initialValue: "pending",
     }),
     defineField({
       name: "uploadedAt",
@@ -38,9 +44,10 @@ export const motiveSubmission = defineType({
       title: "Publicerad i galleri",
       type: "boolean",
       initialValue: false,
+      hidden: ({ document }) => document?.status !== "approved",
       validation: (rule) =>
         rule.custom((value, context) => {
-          if (value && context.document?.status !== "godkänd") {
+          if (value && context.document?.status !== "approved") {
             return "Kan bara publiceras om status är godkänd";
           }
           return true;
@@ -54,18 +61,22 @@ export const motiveSubmission = defineType({
       date: "uploadedAt",
       isPublished: "isPublished",
     },
-    prepare: ({ subtitle, media, date, isPublished }) => ({
-      title: date
+    prepare: ({ subtitle, media, date, isPublished }) => {
+      const formattedDate = date
         ? new Date(date as string).toLocaleString("sv-SE", {
             dateStyle: "short",
             timeStyle: "short",
           })
-        : "Bidrag",
-      subtitle:
-        subtitle === "godkänd"
-          ? `${subtitle}${isPublished ? " (publicerad)" : " (ej publicerad)"}`
-          : subtitle,
-      media,
-    }),
+        : "Unknown date";
+
+      return {
+        title: `${isPublished ? "✅ " : ""}${formattedDate}`,
+        subtitle:
+          subtitle === "approved"
+            ? `Godkänd${isPublished ? " (publicerad)" : " (ej publicerad)"}`
+            : "",
+        media,
+      };
+    },
   },
 });

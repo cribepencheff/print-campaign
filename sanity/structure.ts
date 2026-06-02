@@ -1,5 +1,13 @@
+import {
+  Files,
+  Images,
+  CalendarDays,
+  SettingsIcon,
+  CircleDashedIcon,
+  CircleMinusIcon,
+  SmileIcon,
+} from "lucide-react";
 import type { StructureResolver } from "sanity/structure";
-import { apiVersion } from "./env";
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
@@ -7,53 +15,51 @@ export const structure: StructureResolver = (S) =>
     .title("Innehåll")
 
     .items([
-      S.documentTypeListItem("page").title("Sidor"),
-
-      S.divider(),
-      S.divider(),
-
-      S.documentTypeListItem("event").title("Händelser"),
-
-      S.divider(),
-      S.divider(),
-
-      S.divider().title("Motiv"),
+      S.documentTypeListItem("page").title("Sidor").icon(Files),
 
       S.listItem()
-        .title("Inkommen")
+        .title("Gallerisida")
+        .icon(Images)
         .child(
-          S.documentTypeList("motiv")
-            .title("Inkommen")
-            .filter('_type == "motiv" && status == "inkommen"')
-            .apiVersion(apiVersion),
+          S.document().schemaType("galleryPage").documentId("galleryPage")
         ),
 
-      S.listItem()
-        .title("Godkänd")
-        .schemaType("motiv")
-        .child(
-          S.documentTypeList("motiv")
-            .title("Godkänd")
-            .schemaType("motiv")
-            .filter('_type == "motiv" && status == "godkänd"')
-            .apiVersion(apiVersion),
-        ),
+      S.documentTypeListItem("event").title("Händelser").icon(CalendarDays),
+
+      S.divider(),
 
       S.listItem()
-        .title("Nekad")
-        .schemaType("motiv")
+        .title("Motiv / Inkomna")
+        .icon(CircleDashedIcon)
         .child(
           S.documentTypeList("motiv")
-            .title("Nekad")
-            .schemaType("motiv")
-            .filter('_type == "motiv" && status == "nekad"')
-            .apiVersion(apiVersion),
+            .title("Motiv / Inkomna")
+            .filter('_type == "motiv" && status == $status')
+            .params({ status: "pending" })
+        ),
+      S.listItem()
+        .title("Motiv / Godkända")
+        .icon(SmileIcon)
+        .child(
+          S.documentTypeList("motiv")
+            .title("Motiv / Godkända")
+            .filter('_type == "motiv" && status == $status')
+            .params({ status: "approved" })
+        ),
+      S.listItem()
+        .title("Motiv / Nekad")
+        .icon(CircleMinusIcon)
+        .child(
+          S.documentTypeList("motiv")
+            .title("Motiv / Nekad")
+            .filter('_type == "motiv" && status == $status')
+            .params({ status: "rejected" })
         ),
 
       S.divider(),
-      S.divider(),
 
       S.listItem()
-        .title("Webbplatsinställningar")
+        .title("Inställningar")
+        .icon(SettingsIcon)
         .child(S.document().schemaType("settings").documentId("settings")),
     ]);

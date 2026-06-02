@@ -1,7 +1,7 @@
 import { createClient } from "@sanity/client";
 import { type NextRequest, NextResponse } from "next/server";
-import { apiVersion, dataset, projectId } from "@/sanity/env";
 import { UPLOAD_ALLOWED_TYPES, UPLOAD_MAX_SIZE_BYTES } from "@/lib/upload";
+import { apiVersion, dataset, projectId } from "@/sanity/env";
 
 export async function POST(req: NextRequest) {
   if (!process.env.SANITY_API_WRITE_TOKEN) {
@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
         _type: "image",
         asset: { _type: "reference", _ref: uploadedAsset._id },
       },
-      status: "inkommen",
+      status: "pending",
       uploadedAt: new Date().toISOString(),
       isPublished: false,
     });

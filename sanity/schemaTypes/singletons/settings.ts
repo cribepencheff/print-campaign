@@ -2,18 +2,18 @@ import { defineField, defineType } from "sanity";
 
 export const settings = defineType({
   name: "settings",
-  title: "Webbplatsinställningar",
+  title: "Inställningar",
   type: "document",
   groups: [
-    { name: "seo", title: "SEO", default: true },
-    { name: "footer", title: "Footer" },
+    { name: "footer", title: "Footer", default: true },
+    { name: "seo", title: "SEO" },
   ],
   fields: [
     defineField({
       name: "title",
       type: "string",
       hidden: true,
-      initialValue: "Webbplatsinställningar",
+      initialValue: "Inställningar",
       group: "seo",
     }),
     defineField({
@@ -38,6 +38,6 @@ export const settings = defineType({
   ],
   preview: {
     select: { title: "seoTitle" },
-    prepare: () => ({ title: "Webbplatsinställningar" }),
+    prepare: () => ({ title: "Inställningar" }),
   },
 });
