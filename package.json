@@ -11,6 +11,7 @@
     "deploy": "vercel build && vercel deploy --prebuilt"
   },
   "dependencies": {
+    "@getbrevo/brevo": "^5.0.4",
     "@portabletext/types": "^4.0.2",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.26.0",
