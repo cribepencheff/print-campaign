@@ -18,13 +18,13 @@ export const motiveSubmission = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Inkommna", value: "inkommen" },
-          { title: "Godkända", value: "godkänd" },
-          { title: "Nekad", value: "nekad" },
+          { title: "Inkommen", value: "pending" },
+          { title: "Godkänd", value: "approved" },
+          { title: "Nekad", value: "rejected" },
         ],
         layout: "radio",
       },
-      initialValue: "inkommen",
+      initialValue: "pending",
     }),
     defineField({
       name: "uploadedAt",
@@ -40,7 +40,7 @@ export const motiveSubmission = defineType({
       initialValue: false,
       validation: (rule) =>
         rule.custom((value, context) => {
-          if (value && context.document?.status !== "godkänd") {
+          if (value && context.document?.status !== "approved") {
             return "Kan bara publiceras om status är godkänd";
           }
           return true;
@@ -62,9 +62,9 @@ export const motiveSubmission = defineType({
           })
         : "Bidrag",
       subtitle:
-        subtitle === "godkänd"
-          ? `${subtitle}${isPublished ? " (publicerad)" : " (ej publicerad)"}`
-          : subtitle,
+        subtitle === "approved"
+          ? `Godkänd${isPublished ? " (publicerad)" : " (ej publicerad)"}`
+          : "", // UUID in a near future, but for now just show status if approved
       media,
     }),
   },

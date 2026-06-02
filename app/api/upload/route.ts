@@ -70,7 +70,7 @@ export async function POST(req: NextRequest) {
         _type: "image",
         asset: { _type: "reference", _ref: uploadedAsset._id },
       },
-      status: "inkommen",
+      status: "pending",
       uploadedAt: new Date().toISOString(),
       isPublished: false,
     });
