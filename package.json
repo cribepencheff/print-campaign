@@ -12,16 +12,20 @@
   },
   "dependencies": {
     "@getbrevo/brevo": "^5.0.4",
+    "@hookform/resolvers": "^5.4.0",
     "@portabletext/types": "^4.0.2",
     "@sanity/image-url": "^2.1.1",
     "@sanity/vision": "^5.26.0",
+    "libphonenumber-js": "^1.13.4",
     "lucide-react": "^1.17.0",
     "next": "16.2.6",
     "next-sanity": "^12.4.5",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-hook-form": "^7.77.0",
     "sanity": "^5.26.0",
-    "styled-components": "^6.4.2"
+    "styled-components": "^6.4.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
