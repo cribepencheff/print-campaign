@@ -30,6 +30,7 @@ export const page = defineType({
         { type: "textSection" },
         { type: "eventList" },
         { type: "fileUpload" },
+        { type: "newsletter" },
       ],
       validation: (Rule) =>
         Rule.custom((sections: Array<{ _type: string }> = []) => {

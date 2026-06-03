@@ -1,8 +1,8 @@
 import { defineField, defineType } from "sanity";
 
-export const eventList = defineType({
-  name: "eventList",
-  title: "Händelser (lista)",
+export const newsletter = defineType({
+  name: "newsletter",
+  title: "Nyhetsbrevsformulär",
   type: "object",
   fields: [
     defineField({
@@ -16,19 +16,12 @@ export const eventList = defineType({
       type: "text",
       rows: 3,
     }),
-    defineField({
-      name: "events",
-      title: "Evenemang",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "event" }] }],
-      hidden: true,
-    }),
   ],
   preview: {
     select: { title: "heading" },
     prepare: ({ title }) => ({
-      title: `Händelser: ${title ? `: ${title}` : ""}`,
-      subtitle: `Alla evenemang`,
+      title: `Nyhetsbrev: ${title ?? "-"}`,
+      subtitle: `formulär`,
     }),
   },
 });

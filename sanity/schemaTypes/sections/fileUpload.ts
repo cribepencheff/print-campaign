@@ -19,6 +19,9 @@ export const fileUpload = defineType({
   ],
   preview: {
     select: { title: "heading" },
-    prepare: ({ title }) => ({ title: `Uppladdning: ${title ?? "-"}` }),
+    prepare: ({ title }) => ({
+      title: `Filuppladdning: ${title ?? "-"}`,
+      subtitle: `formulär`,
+    }),
   },
 });

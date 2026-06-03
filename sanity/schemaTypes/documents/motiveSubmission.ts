@@ -33,6 +33,14 @@ export const motiveSubmission = defineType({
       initialValue: "pending",
     }),
     defineField({
+      name: "contributorId",
+      title: "Contributor ID",
+      type: "string",
+      description:
+        "UUID som kopplar bidraget till ev. Brevo-kontakt. Genereras automatiskt.",
+      readOnly: true,
+    }),
+    defineField({
       name: "uploadedAt",
       title: "Uppladdad",
       type: "datetime",
@@ -60,8 +68,9 @@ export const motiveSubmission = defineType({
       media: "asset",
       date: "uploadedAt",
       isPublished: "isPublished",
+      contributorId: "contributorId",
     },
-    prepare: ({ subtitle, media, date, isPublished }) => {
+    prepare: ({ subtitle, media, date, isPublished, contributorId }) => {
       const formattedDate = date
         ? new Date(date as string).toLocaleString("sv-SE", {
             dateStyle: "short",
@@ -74,7 +83,7 @@ export const motiveSubmission = defineType({
         subtitle:
           subtitle === "approved"
             ? `Godkänd${isPublished ? " (publicerad)" : " (ej publicerad)"}`
-            : "",
+            : contributorId,
         media,
       };
     },
