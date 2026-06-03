@@ -46,8 +46,16 @@ export type FileUploadSection = {
   description?: string;
 };
 
+export type NewsletterSection = {
+  _type: "newsletter";
+  _key: string;
+  heading?: string;
+  description?: string;
+};
+
 export type Section =
   | HeroSection
   | TextSection
   | EventSection
-  | FileUploadSection;
+  | FileUploadSection
+  | NewsletterSection;

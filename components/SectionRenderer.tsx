@@ -2,6 +2,7 @@ import type { Section } from "@/types/sections";
 import { EventSection } from "./sections/EventSection";
 import { FileUploadSection } from "./sections/FileUploadSection";
 import { HeroSection } from "./sections/HeroSection";
+import { NewsletterSection } from "./sections/NewsletterSection";
 import { TextSection } from "./sections/TextSection";
 
 type SectionRegistry = {
@@ -15,6 +16,7 @@ const registry: SectionRegistry = {
   textSection: TextSection,
   eventList: EventSection,
   fileUpload: FileUploadSection,
+  newsletter: NewsletterSection,
 };
 
 export function SectionRenderer({ sections }: { sections: Section[] }) {

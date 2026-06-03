@@ -1,6 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+  uploadSchema,
+  type UploadFormValues,
+} from "@/lib/schemas/uploadSchema";
 import {
   UPLOAD_ALLOWED_TYPES,
   UPLOAD_ALLOWED_TYPES_TEXT,
@@ -17,14 +23,24 @@ export function FileUploadSection({
   const { heading, description } = section;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [status, setStatus] = useState<"uploading" | "success" | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
+  const [uploadStatus, setUploadStatus] = useState<
+    "uploading" | "success" | null
+  >(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [previewName, setPreviewName] = useState<string | null>(null);
 
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<UploadFormValues>({
+    resolver: zodResolver(uploadSchema),
+    defaultValues: { email: "", firstName: "" },
+  });
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -35,53 +51,56 @@ export function FileUploadSection({
     }
 
     if (!UPLOAD_ALLOWED_TYPES.includes(file.type)) {
-      setError(`Endast ${UPLOAD_ALLOWED_TYPES_TEXT} är tillåtet.`);
+      setFileError(`Endast ${UPLOAD_ALLOWED_TYPES_TEXT} är tillåtet.`);
       e.target.value = "";
       setPreview(null);
       setPreviewName(null);
       return;
     }
     if (file.size > UPLOAD_MAX_SIZE_BYTES) {
-      setError(`Filen får max vara ${UPLOAD_MAX_SIZE_MB} MB.`);
+      setFileError(`Filen får max vara ${UPLOAD_MAX_SIZE_MB} MB.`);
       e.target.value = "";
       setPreview(null);
       setPreviewName(null);
       return;
     }
 
-    setError(null);
+    setFileError(null);
     setPreviewName(file.name);
     setPreview(URL.createObjectURL(file));
+    setSelectedFile(file);
   }
 
   function clearFile() {
     if (fileInputRef.current) fileInputRef.current.value = "";
+    setSelectedFile(null);
     setPreview(null);
     setPreviewName(null);
-    setError(null);
+    setFileError(null);
   }
 
   function resetForNewUpload() {
     clearFile();
-    setStatus(null);
-    setError(null);
+    setUploadStatus(null);
+    setSubmitError(null);
+    reset();
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError(null);
+  async function onSubmit(values: UploadFormValues) {
+    setSubmitError(null);
 
-    const form = e.currentTarget;
-    const file = (form.elements.namedItem("file") as HTMLInputElement)
-      .files?.[0];
+    const file = selectedFile;
     if (!file) {
-      setError("Välj en fil innan du skickar.");
+      setFileError("Välj en fil innan du skickar.");
       return;
     }
 
-    setStatus("uploading");
+    setUploadStatus("uploading");
 
-    const formData = new FormData(form);
+    const formData = new FormData();
+    formData.append("file", file);
+    if (values.email) formData.append("email", values.email);
+    if (values.firstName) formData.append("firstName", values.firstName);
 
     try {
       const res = await fetch("/api/upload", {
@@ -91,19 +110,21 @@ export function FileUploadSection({
       const data = (await res.json()) as { error?: string };
 
       if (!res.ok) {
-        setError(data.error ?? "Något gick fel. Försök igen.");
-        setStatus(null);
+        setSubmitError(data.error ?? "Något gick fel. Försök igen.");
+        setUploadStatus(null);
         return;
       }
 
-      setStatus("success");
+      setUploadStatus("success");
     } catch {
-      setError("Nätverksfel — kontrollera din uppkoppling och försök igen.");
-      setStatus(null);
+      setSubmitError(
+        "Nätverksfel — kontrollera din uppkoppling och försök igen."
+      );
+      setUploadStatus(null);
     }
   }
 
-  if (status === "success") {
+  if (uploadStatus === "success") {
     return (
       <section className="py-16 px-8 text-center">
         <p className="text-xl font-semibold">Tack för ditt bidrag!</p>
@@ -124,7 +145,7 @@ export function FileUploadSection({
   return (
     <section className="py-16 px-8">
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         noValidate
         className="max-w-lg mx-auto space-y-6"
       >
@@ -139,7 +160,6 @@ export function FileUploadSection({
               ({UPLOAD_ALLOWED_TYPES_TEXT}, max {UPLOAD_MAX_SIZE_MB} MB)
             </span>
           </label>
-
           <input
             ref={fileInputRef}
             id="file"
@@ -149,6 +169,11 @@ export function FileUploadSection({
             onChange={handleFileChange}
             className="block w-full text-sm file:mr-4 file:py-2 file:px-4 file:border-0 file:rounded file:text-sm file:font-medium file:bg-black file:text-white cursor-pointer"
           />
+          {fileError && (
+            <p role="alert" className="text-sm text-red-600 mt-1">
+              {fileError}
+            </p>
+          )}
           {previewName && (
             <div className="mt-3 relative inline-block">
               {preview && (
@@ -171,34 +196,37 @@ export function FileUploadSection({
           )}
         </div>
 
-        {/* E-mail */}
+        {/* E-postadress */}
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label htmlFor="email" className="block text-sm font-medium mb-1">
             E-postadress{" "}
             <span className="text-gray-400 font-normal">(valfritt)</span>
           </label>
           <input
+            id="email"
             type="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
             placeholder="din@email.se"
+            {...register("email")}
             className="block w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
           />
+          {errors.email && (
+            <p role="alert" className="text-sm text-red-600 mt-1">
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
-        {/* Firstname */}
+        {/* Förnamn */}
         <div>
-          <label className="block text-sm font-medium mb-1">
+          <label htmlFor="firstName" className="block text-sm font-medium mb-1">
             Förnamn{" "}
             <span className="text-gray-400 font-normal">(valfritt)</span>
           </label>
           <input
+            id="firstName"
             type="text"
-            name="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
             placeholder="Förnamn"
+            {...register("firstName")}
             className="block w-full border rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black"
           />
         </div>
@@ -209,18 +237,18 @@ export function FileUploadSection({
           väljs ut.
         </p>
 
-        {error && (
+        {submitError && (
           <p role="alert" className="text-sm text-red-600">
-            {error}
+            {submitError}
           </p>
         )}
 
         <button
           type="submit"
-          disabled={status === "uploading" || !previewName}
+          disabled={uploadStatus === "uploading" || !previewName}
           className="w-full bg-black text-white py-3 rounded font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {status === "uploading" ? "Laddar upp…" : "Skicka in"}
+          {uploadStatus === "uploading" ? "Laddar upp…" : "Skicka in"}
         </button>
       </form>
     </section>
