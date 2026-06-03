@@ -2,8 +2,7 @@ import { BrevoClient } from "@getbrevo/brevo";
 
 function getClient(): BrevoClient {
   const apiKey = process.env.BREVO_API_KEY;
-  if (!apiKey)
-    throw new Error("BREVO_API_KEY missing in environment variables");
+  if (!apiKey) throw new Error("BREVO_API_KEY missing in environment variables");
   return new BrevoClient({ apiKey });
 }
 
@@ -24,6 +23,29 @@ export async function saveUploadContact(
     email,
     attributes,
     listIds: contributorsListId ? [Number(contributorsListId)] : undefined,
+    updateEnabled: true,
+  });
+}
+
+// Subscribes an email-address to the newsletter list, creating the contact if it doesn't exist. Idempotent.
+export async function subscribeNewsletter(
+  email: string,
+  firstName: string,
+  optional: { lastName?: string; phone?: string } = {}
+): Promise<void> {
+  const pendingListId = process.env.BREVO_PENDING_LIST_ID;
+  if (!pendingListId) throw new Error("BREVO_PENDING_LIST_ID missing in environment variables");
+
+  const client = getClient();
+
+  const attributes: Record<string, string> = { FIRSTNAME: firstName };
+  if (optional.lastName) attributes.LASTNAME = optional.lastName;
+  if (optional.phone) attributes.SMS = optional.phone;
+
+  await client.contacts.createContact({
+    email,
+    attributes,
+    listIds: [Number(pendingListId)],
     updateEnabled: true,
   });
 }

@@ -2,6 +2,7 @@ import { createHash } from "crypto";
 import { createClient } from "@sanity/client";
 import { type NextRequest, NextResponse } from "next/server";
 import { saveUploadContact } from "@/lib/brevo";
+import { uploadSchema } from "@/lib/schemas/uploadSchema";
 import {
   UPLOAD_ALLOWED_TYPES,
   UPLOAD_ALLOWED_TYPES_TEXT,
@@ -27,9 +28,6 @@ export async function POST(req: NextRequest) {
   }
 
   const file = formData.get("file");
-  // Optional contact info for Brevo contact creation, never stored in Sanity
-  const email = (formData.get("email") as string | null) || null;
-  const firstName = (formData.get("firstName") as string | null) || null;
 
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "Ingen fil hittades." }, { status: 400 });
@@ -49,12 +47,27 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const contributorId = email
+  // Valisate optional contact info for Brevo contact creation, never stored in Sanity
+  const contactResult = uploadSchema.safeParse({
+    email: formData.get("email") ?? "",
+    firstName: formData.get("firstName") ?? "",
+  });
+  if (!contactResult.success) {
+    const message =
+      contactResult.error.issues[0]?.message ?? "Ogiltig förfrågan.";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
+
+  const { email, firstName } = contactResult.data;
+  const emailValue = email || null;
+
+  const contributorId = emailValue
     ? createHash("sha256")
-        .update(email.toLowerCase())
+        .update(emailValue.toLowerCase())
         .digest("hex")
         .slice(0, 12)
     : undefined;
+
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const writeClient = createClient({
@@ -102,10 +115,10 @@ export async function POST(req: NextRequest) {
 
   // Brevo contact - await:ed to surface errors in response (debug mode)
   let brevoWarning: string | undefined;
-  if (email) {
+  if (emailValue) {
     try {
-      await saveUploadContact(email, contributorId!, {
-        firstName: firstName ?? undefined,
+      await saveUploadContact(emailValue, contributorId!, {
+        firstName: firstName || undefined,
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
