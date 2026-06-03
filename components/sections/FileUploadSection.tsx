@@ -245,7 +245,7 @@ export function FileUploadSection({
 
         <button
           type="submit"
-          disabled={uploadStatus === "uploading" || !previewName}
+          disabled={uploadStatus === "uploading"}
           className="w-full bg-black text-white py-3 rounded font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {uploadStatus === "uploading" ? "Laddar upp…" : "Skicka in"}
