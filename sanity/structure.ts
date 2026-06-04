@@ -8,6 +8,7 @@ import {
   SmileIcon,
 } from "lucide-react";
 import type { StructureResolver } from "sanity/structure";
+import { apiVersion } from "./env";
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
@@ -36,6 +37,7 @@ export const structure: StructureResolver = (S) =>
             .title("Motiv / Inkomna")
             .filter('_type == "motiv" && status == $status')
             .params({ status: "pending" })
+            .apiVersion(apiVersion)
         ),
       S.listItem()
         .title("Motiv / Godkända")
@@ -45,6 +47,7 @@ export const structure: StructureResolver = (S) =>
             .title("Motiv / Godkända")
             .filter('_type == "motiv" && status == $status')
             .params({ status: "approved" })
+            .apiVersion(apiVersion)
         ),
       S.listItem()
         .title("Motiv / Nekad")
@@ -54,6 +57,7 @@ export const structure: StructureResolver = (S) =>
             .title("Motiv / Nekad")
             .filter('_type == "motiv" && status == $status')
             .params({ status: "rejected" })
+            .apiVersion(apiVersion)
         ),
 
       S.divider(),
