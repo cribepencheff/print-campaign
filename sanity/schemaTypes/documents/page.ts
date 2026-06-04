@@ -35,16 +35,24 @@ export const page = defineType({
       validation: (Rule) =>
         Rule.custom((sections: Array<{ _type: string }> = []) => {
           const heroCount = sections.filter((s) => s._type === "hero").length;
+          const fileUploadCount = sections.filter(
+            (s) => s._type === "fileUpload"
+          ).length;
+          const newsletterCount = sections.filter(
+            (s) => s._type === "newsletter"
+          ).length;
 
           // Hero rules
           if (heroCount > 1)
             return "Endast en hero-sektion per sida är tillåten.";
 
           // File upload rules
-          if (
-            (sections?.filter((b) => b._type === "fileUpload").length ?? 0) > 1
-          )
+          if (fileUploadCount > 1)
             return "Endast ett uppladdningsformulär per sida är tillåtet.";
+
+          // Newsletter
+          if (newsletterCount > 1)
+            return "Endast ett nyhetsbrevformulär per sida är tillåtet.";
 
           // Default validation result
           return true;

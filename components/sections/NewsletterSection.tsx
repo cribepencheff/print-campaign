@@ -31,6 +31,7 @@ export function NewsletterSection({
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<NewsletterFormValues>({
     resolver: zodResolver(newsletterSchema),
@@ -89,15 +90,22 @@ export function NewsletterSection({
       <section className="py-16 px-8 text-center">
         <p className="text-xl font-semibold">Tack!</p>
         <p className="text-gray-600 mt-2">
-          Du kommer att få ett bekräftelsemail. Är du redan anmäld händer
-          ingenting.
+          Du kommer att få ett bekräftelsemail om du inte redan prenumererar.
+          <br />
+          Välkommen!
         </p>
+        <button
+          onClick={() => reset()}
+          className="mt-6 text-sm text-gray-600 underline"
+        >
+          Stäng detta meddelande
+        </button>
       </section>
     );
   }
 
   return (
-    <section className="py-16 px-8">
+    <section id={section._type} className="py-16 px-8">
       <form
         onSubmit={handleSubmit(onSubmit)}
         noValidate

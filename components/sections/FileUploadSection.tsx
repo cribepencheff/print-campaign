@@ -17,8 +17,10 @@ import type { FileUploadSection as FileUploadSectionType } from "@/types/section
 
 export function FileUploadSection({
   section,
+  hasNewsletter = false,
 }: {
   section: FileUploadSectionType;
+  hasNewsletter?: boolean;
 }) {
   const { heading, description } = section;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -115,6 +117,16 @@ export function FileUploadSection({
         return;
       }
 
+      if (values.email) {
+        const prefill = {
+          email: values.email,
+          firstName: values.firstName ?? "",
+        };
+        sessionStorage.setItem("newsletter-prefill", JSON.stringify(prefill));
+        window.dispatchEvent(
+          new CustomEvent("newsletter-prefill", { detail: prefill })
+        );
+      }
       setUploadStatus("success");
     } catch {
       setSubmitError(
@@ -137,6 +149,20 @@ export function FileUploadSection({
           >
             Ladda upp ett till motiv
           </button>
+
+          {hasNewsletter && (
+            <button
+              type="button"
+              onClick={() =>
+                document
+                  .getElementById("newsletter")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+              className="underline text-sm text-gray-600 hover:text-black transition-colors"
+            >
+              Vill du hålla dig uppdaterad? Anmäl dig till nyhetsbrevet.
+            </button>
+          )}
         </div>
       </section>
     );

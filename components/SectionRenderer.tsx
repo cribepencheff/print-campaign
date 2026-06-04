@@ -32,6 +32,17 @@ export function SectionRenderer({ sections }: { sections: Section[] }) {
           return null;
         }
 
+        // Special handling for FileUploadSection to pass hasNewsletter prop
+        if (section._type === "fileUpload") {
+          return (
+            <FileUploadSection
+              key={section._key}
+              section={section}
+              hasNewsletter={sections.some((s) => s._type === "newsletter")}
+            />
+          );
+        }
+
         return <Component key={section._key} section={section} />;
       })}
     </>
