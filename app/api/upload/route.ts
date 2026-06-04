@@ -40,6 +40,13 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  if (file.size === 0) {
+    return NextResponse.json(
+      { error: "Filen får inte vara tom." },
+      { status: 400 }
+    );
+  }
+
   if (file.size > UPLOAD_MAX_SIZE_BYTES) {
     return NextResponse.json(
       { error: `Filen får max vara ${UPLOAD_MAX_SIZE_MB} MB.` },
@@ -47,7 +54,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Valisate optional contact info for Brevo contact creation, never stored in Sanity
+  // Validate optional contact info for Brevo contact creation, never stored in Sanity
   const contactResult = uploadSchema.safeParse({
     email: formData.get("email") ?? "",
     firstName: formData.get("firstName") ?? "",
