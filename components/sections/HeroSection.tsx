@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Image } from "next-sanity/image";
 import { urlFor } from "@/sanity/lib/image";
 import type { HeroSection as HeroSectionType } from "@/types/sections";
 
@@ -27,6 +27,7 @@ export function HeroSection({ section }: { section: HeroSectionType }) {
       {section.image?.asset && (
         <div className={isSplit ? "flex-1" : "mt-10 mx-auto max-w-lg"}>
           <Image
+            loading="eager"
             src={urlFor(section.image).width(800).url()}
             alt={section.image.alt ?? section.title}
             width={800}
