@@ -16,13 +16,6 @@ export const eventList = defineType({
       type: "text",
       rows: 3,
     }),
-    defineField({
-      name: "events",
-      title: "Evenemang",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "event" }] }],
-      hidden: true,
-    }),
   ],
   preview: {
     select: { title: "heading" },
