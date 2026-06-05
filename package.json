@@ -9,7 +9,7 @@
     "start": "next start",
     "ts": "tsc --project tsconfig.json --noEmit --incremental",
     "lint": "eslint .",
-    "deploy": "vercel build && vercel deploy --prebuilt"
+    "deploy": "vercel build --prod && vercel deploy --prebuilt --prod"
   },
   "dependencies": {
     "@getbrevo/brevo": "^5.0.4",
