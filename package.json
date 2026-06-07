@@ -16,6 +16,7 @@
     "@hookform/resolvers": "^5.4.0",
     "@portabletext/types": "^4.0.2",
     "@sanity/image-url": "^2.1.1",
+    "@sanity/locale-sv-se": "^1.2.33",
     "@sanity/vision": "^5.26.0",
     "libphonenumber-js": "^1.13.4",
     "lucide-react": "^1.17.0",
