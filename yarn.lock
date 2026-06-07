@@ -3484,6 +3484,11 @@
     "@lezer/highlight" "^1.0.0"
     "@lezer/lr" "^1.0.0"
 
+"@sanity/locale-sv-se@^1.2.33":
+  version "1.2.33"
+  resolved "https://registry.yarnpkg.com/@sanity/locale-sv-se/-/locale-sv-se-1.2.33.tgz#ff8ed6e4dcbd58c837847542474230951905447d"
+  integrity sha512-5Uv1qXx7FMROwWw7HV94r3bsPxqovoNvNVB1hB6ObPUZX9ZKw4CrUHDCLhrXIo9XacG2nM8JLswXH38Ru2MA8Q==
+
 "@sanity/logos@^2.2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@sanity/logos/-/logos-2.2.2.tgz#ba9a5de7629928831fce9421920268ee43c1d501"

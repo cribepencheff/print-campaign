@@ -9,7 +9,7 @@ export function HeroSection({ section }: { section: HeroSectionType }) {
       className={`py-20 px-8 flex gap-12 items-center max-w-5xl mx-auto" : "text-center max-w-2xl mx-auto"}`}
     >
       <div className="flex-1">
-        <h1 className="text-4xl font-bold mb-4">{section.title}</h1>
+        <h1 className="text-4xl font-bold mb-4">{section.heading}</h1>
         {section.description && (
           <div className="prose prose-lg">
             <RichText value={section.description} />
@@ -21,7 +21,7 @@ export function HeroSection({ section }: { section: HeroSectionType }) {
         <Image
           loading="eager"
           src={urlFor(section.image).width(800).url()}
-          alt={section.image.alt ?? section.title}
+          alt={section.image.alt ?? section.heading}
           width={800}
           height={500}
           className="rounded-lg w-full object-cover"

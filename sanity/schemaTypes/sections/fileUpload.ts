@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { slugify } from "@/lib/utils";
 
 export const fileUpload = defineType({
   name: "fileUpload",
@@ -21,7 +22,7 @@ export const fileUpload = defineType({
     select: { title: "heading" },
     prepare: ({ title }) => ({
       title: `Filuppladdning: ${title ?? "-"}`,
-      subtitle: `formulär`,
+      subtitle: `ID: #${slugify(title ?? "")}`,
     }),
   },
 });

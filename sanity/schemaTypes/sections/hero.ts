@@ -6,8 +6,8 @@ export const hero = defineType({
   type: "object",
   fields: [
     defineField({
-      name: "title",
-      title: "Titel",
+      name: "heading",
+      title: "Rubrik",
       type: "string",
       validation: (r) => r.required(),
     }),
@@ -27,9 +27,9 @@ export const hero = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", media: "image" },
+    select: { title: "heading", media: "image" },
     prepare: ({ title, media }) => ({
-      title: `Hero: ${title ?? "–"}`,
+      title: `Hero: ${title ?? "-"}`,
       media,
     }),
   },

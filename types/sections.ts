@@ -3,7 +3,7 @@ import type { PortableTextBlock } from "@portabletext/types";
 export type HeroSection = {
   _type: "hero";
   _key: string;
-  title: string;
+  heading: string;
   description?: PortableTextBlock[];
   image?: {
     asset: { _id: string; url: string };

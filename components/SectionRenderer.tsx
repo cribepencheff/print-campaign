@@ -1,3 +1,4 @@
+import { slugify } from "@/lib/utils";
 import type { Section } from "@/types/sections";
 import { EventSection } from "./sections/EventSection";
 import { FileUploadSection } from "./sections/FileUploadSection";
@@ -19,6 +20,10 @@ const registry: SectionRegistry = {
   newsletter: NewsletterSection,
 };
 
+function getSectionTitle(section: Section): string | undefined {
+  return section.heading as string;
+}
+
 export function SectionRenderer({ sections }: { sections: Section[] }) {
   return (
     <>
@@ -35,15 +40,21 @@ export function SectionRenderer({ sections }: { sections: Section[] }) {
         // Special handling for FileUploadSection to pass hasNewsletter prop
         if (section._type === "fileUpload") {
           return (
-            <FileUploadSection
-              key={section._key}
-              section={section}
-              hasNewsletter={sections.some((s) => s._type === "newsletter")}
-            />
+            <div key={section._key} id={slugify(getSectionTitle(section)!)}>
+              <FileUploadSection
+                key={section._key}
+                section={section}
+                hasNewsletter={sections.some((s) => s._type === "newsletter")}
+              />
+            </div>
           );
         }
 
-        return <Component key={section._key} section={section} />;
+        return (
+          <div key={section._key} id={slugify(getSectionTitle(section)!)}>
+            <Component section={section} />
+          </div>
+        );
       })}
     </>
   );

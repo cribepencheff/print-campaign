@@ -151,17 +151,12 @@ export function FileUploadSection({
           </button>
 
           {hasNewsletter && (
-            <button
-              type="button"
-              onClick={() =>
-                document
-                  .getElementById("newsletter")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
+            <a
+              href="#newsletter"
               className="underline text-sm text-gray-600 hover:text-black transition-colors"
             >
               Vill du hålla dig uppdaterad? Anmäl dig till nyhetsbrevet.
-            </button>
+            </a>
           )}
         </div>
       </section>

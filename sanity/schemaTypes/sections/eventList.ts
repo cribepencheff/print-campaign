@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { slugify } from "@/lib/utils";
 
 export const eventList = defineType({
   name: "eventList",
@@ -21,7 +22,7 @@ export const eventList = defineType({
     select: { title: "heading" },
     prepare: ({ title }) => ({
       title: `Turnédatum: ${title ? `: ${title}` : ""}`,
-      subtitle: `Alla turnédatum.`,
+      subtitle: `ID: #${slugify(title ?? "")}`,
     }),
   },
 });

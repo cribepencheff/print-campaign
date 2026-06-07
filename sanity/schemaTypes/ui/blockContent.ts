@@ -35,7 +35,7 @@ const blockMembers = [
   defineArrayMember({
     type: "object",
     name: "button",
-    title: "Button",
+    title: "Knapp",
     icon: LaunchIcon,
     fields: [
       { name: "text", title: "Text", type: "string" },
@@ -51,7 +51,11 @@ export const blockContent = defineType({
   type: "array",
   of: [
     ...blockMembers,
-    defineArrayMember({ type: "image", options: { hotspot: true } }),
+    defineArrayMember({
+      type: "image",
+      options: { hotspot: true },
+      title: "Bild",
+    }),
   ],
 });
 
