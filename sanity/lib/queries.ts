@@ -48,6 +48,19 @@ export const SETTINGS_QUERY = `*[_type == "settings"][0]{
   description
 }`;
 
+// Navigationslänkar — hämtas i layout
+export const NAV_QUERY = `*[_type == "settings"][0]{
+  "links": navigationLinks[] {
+    label,
+    "href": select(
+      linkType == "intern" && internalLink->_type == "page" && internalLink->slug.current == "home" => "/",
+      linkType == "intern" && internalLink->_type == "page" => "/" + internalLink->slug.current,
+      linkType == "intern" && internalLink->_type == "galleryPage" => "/gallery",
+      externalUrl
+    )
+  }
+}`;
+
 // Gallerisida — singleton
 export const GALLERY_PAGE_QUERY = `*[_type == "galleryPage"][0]{
   title,

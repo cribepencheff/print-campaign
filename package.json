@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@getbrevo/brevo": "^5.0.4",
+    "@headlessui/react": "^2.2.10",
     "@hookform/resolvers": "^5.4.0",
     "@portabletext/types": "^4.0.2",
     "@sanity/image-url": "^2.1.1",
