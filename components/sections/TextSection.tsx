@@ -1,4 +1,4 @@
-import { PortableText } from "@portabletext/react";
+import { PortableText } from "next-sanity";
 import type { TextSection as TextSectionType } from "@/types/sections";
 
 const bgClass: Record<NonNullable<TextSectionType["background"]>, string> = {
@@ -17,9 +17,9 @@ export function TextSection({ section }: { section: TextSectionType }) {
         {section.heading && (
           <h2 className="text-2xl font-bold mb-6">{section.heading}</h2>
         )}
-        {section.body && (
+        {section.description && (
           <div className="prose prose-lg">
-            <PortableText value={section.body} />
+            <PortableText value={section.description} />
           </div>
         )}
       </div>

@@ -4,7 +4,7 @@ export type HeroSection = {
   _type: "hero";
   _key: string;
   title: string;
-  description?: string;
+  description?: PortableTextBlock[];
   image?: {
     asset: { _id: string; url: string };
     alt?: string;
@@ -18,7 +18,7 @@ export type TextSection = {
   _type: "textSection";
   _key: string;
   heading?: string;
-  body?: PortableTextBlock[];
+  description?: PortableTextBlock[];
   background?: "white" | "gray" | "dark";
   alignment?: "left" | "center";
 };

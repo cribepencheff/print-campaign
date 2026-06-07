@@ -11,7 +11,7 @@ export const textSection = defineType({
       type: "string",
     }),
     defineField({
-      name: "body",
+      name: "description",
       title: "Text",
       type: "blockContent",
     }),

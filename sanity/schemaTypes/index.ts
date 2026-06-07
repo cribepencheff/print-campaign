@@ -10,8 +10,7 @@ import { hero } from "./sections/hero";
 import { newsletter } from "./sections/newsletter";
 import { textSection } from "./sections/textSection";
 import { settings } from "./singletons/settings";
-import { blockContent } from "./ui/blockContent";
-import { simpleBlockContent } from "./ui/simpleBlockContent";
+import { blockContent, simpleBlockContent } from "./ui/blockContent";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [

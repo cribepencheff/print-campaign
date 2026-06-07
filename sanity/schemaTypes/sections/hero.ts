@@ -14,44 +14,23 @@ export const hero = defineType({
     defineField({
       name: "description",
       title: "Beskrivning",
-      type: "text",
-      rows: 3,
+      type: "simpleBlockContent",
     }),
     defineField({
       name: "image",
-      title: "Bild",
+      title: "Hero bild",
+      description:
+        "Rekommenderat format: JPG eller PNG, minst 1440x810 px, max 5 MB. Använd fokuspunkten (⊕) för att styra vilket område som alltid syns vid beskärning.",
       type: "image",
-      options: { hotspot: true },
+      options: { hotspot: true, accept: "image/jpeg,image/png" },
       fields: [defineField({ name: "alt", title: "Alt-text", type: "string" })],
-    }),
-    defineField({
-      name: "cta",
-      title: "CTA-knapp",
-      type: "object",
-      fields: [
-        defineField({ name: "text", title: "Text", type: "string" }),
-        defineField({ name: "url", title: "URL", type: "string" }),
-      ],
-    }),
-    defineField({
-      name: "layout",
-      title: "Layout",
-      type: "string",
-      options: {
-        list: [
-          { title: "Centrerad", value: "centered" },
-          { title: "Delad — text vänster, bild höger", value: "split" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "centered",
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "layout" },
-    prepare: ({ title, subtitle }) => ({
+    select: { title: "title", media: "image" },
+    prepare: ({ title, media }) => ({
       title: `Hero: ${title ?? "–"}`,
-      subtitle: subtitle === "split" ? "Delad layout" : "Centrerad layout",
+      media,
     }),
   },
 });
