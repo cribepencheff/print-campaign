@@ -27,7 +27,7 @@ export default async function Home() {
 
   return (
     <main>
-      <SectionRenderer sections={page.content ?? []} />
+      <SectionRenderer sections={page.content ?? []} pageType="home" />
     </main>
   );
 }

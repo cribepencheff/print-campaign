@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Button } from "@/components/Button";
 import {
   uploadSchema,
   type UploadFormValues,
@@ -264,13 +265,9 @@ export function FileUploadSection({
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={uploadStatus === "uploading"}
-          className="w-full bg-black text-white py-3 rounded font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
+        <Button type="submit" disabled={uploadStatus === "uploading"}>
           {uploadStatus === "uploading" ? "Laddar upp…" : "Skicka in"}
-        </button>
+        </Button>
       </form>
     </section>
   );

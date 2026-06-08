@@ -24,12 +24,18 @@ function getSectionTitle(section: Section): string | undefined {
   return section.heading as string;
 }
 
-export function SectionRenderer({ sections }: { sections: Section[] }) {
+export function SectionRenderer({
+  sections,
+  pageType,
+}: {
+  sections: Section[];
+  pageType?: string;
+}) {
   return (
     <>
       {sections.map((section) => {
         const Component = registry[section._type] as
-          | React.ComponentType<{ section: Section }>
+          | React.ComponentType<{ section: Section; pageType?: string }>
           | undefined;
 
         if (!Component) {
@@ -52,7 +58,7 @@ export function SectionRenderer({ sections }: { sections: Section[] }) {
 
         return (
           <div key={section._key} id={slugify(getSectionTitle(section)!)}>
-            <Component section={section} />
+            <Component section={section} pageType={pageType} />
           </div>
         );
       })}

@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Capriola, Geist_Mono } from "next/font/google";
+import Link from "next/link";
 import { Navigation } from "@/components/Navigation";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { NAV_QUERY } from "@/sanity/lib/queries";
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
+  weight: ["800"],
+  variable: "--font-bricolage",
+});
+
+const capriola = Capriola({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-capriola",
 });
 
 const geistMono = Geist_Mono({
@@ -34,11 +42,33 @@ export default async function RootLayout({
   return (
     <html
       lang="sv"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${bricolage.variable} ${capriola.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {nav?.links && <Navigation links={nav.links} />}
-        {children}
+        <header className="sticky top-0 z-1 py-sp-sm px-sp-lg flex items-start justify-between">
+          <Link
+            href="/"
+            className="bg-white rounded-full border-2 border-white"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element -- SVG, next/image doesn't support it */}
+            <img
+              src="/brand/logo_v1.svg"
+              alt="Antirasistisk valstuga logotyp"
+              className="h-12 md:h-20"
+            />
+          </Link>
+          {nav?.links && <Navigation links={nav.links} />}
+        </header>
+
+        <main className="flex-1">{children}</main>
+
+        <footer className="bg-gray-100 text-center py-4">
+          <p className="text-sm text-gray-500">
+            &copy; {new Date().getFullYear()} Print Campaign. All rights
+            reserved.
+          </p>
+        </footer>
       </body>
     </html>
   );

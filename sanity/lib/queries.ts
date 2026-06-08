@@ -4,8 +4,7 @@
  * Ingen query-logik får finnas direkt i routes eller components.
  */
 
-// Startsida och dynamiska sidor — slug avgör vilken sida som visas
-// "home" → startsidan (/), övriga → /[slug]
+// Startsida — "home"-sluggen renderas som index-routen (/)
 export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0]{
   _type,
   title,
@@ -23,11 +22,18 @@ export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0
   }
 }`;
 
-export const DOCUMENT_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0]{
+// Dynamisk route — matchar page och galleryPage på slug
+// coalesce ger galleryPage fallback "galleri" om slug saknas på befintligt dokument
+export const DOCUMENT_BY_SLUG_QUERY = `*[
+  (_type == "page" || _type == "galleryPage") &&
+  coalesce(slug.current, "galleri") == $slug
+][0]{
   _type,
   title,
   slug,
-  content[] { _type, _key, ..., image { ..., alt, asset-> } }
+  "pageContent": select(_type == "page" => content[] { _type, _key, ..., image { ..., alt, asset-> } }),
+  "description": select(_type == "galleryPage" => description),
+  "images": select(_type == "galleryPage" => images[] { _key, alt, caption, asset-> })
 }`;
 
 // Global footer — singleton, hämtas i layout
@@ -53,30 +59,17 @@ export const NAV_QUERY = `*[_type == "settings"][0]{
   "links": navigationLinks[] {
     label,
     "href": select(
-      linkType == "intern" && internalLink->_type == "page" && internalLink->slug.current == "home" => "/",
-      linkType == "intern" && internalLink->_type == "page" => "/" + internalLink->slug.current,
-      linkType == "intern" && internalLink->_type == "galleryPage" => "/gallery",
+      linkType == "intern" && internalLink->slug.current == "home" => "/",
+      linkType == "intern" => "/" + internalLink->slug.current,
       externalUrl
     )
   }
 }`;
 
-// Gallerisida — singleton
-export const GALLERY_PAGE_QUERY = `*[_type == "galleryPage"][0]{
-  title,
-  description,
-  images[] {
-    _key,
-    alt,
-    caption,
-    asset->
-  }
-}`;
-
 // Alla slugs för generateStaticParams
 // Exkluderar "home" — det är index-routen (/), inte en /[slug]-sida
+// coalesce ger galleryPage fallback "galleri" om slug saknas på befintligt dokument
 export const ALL_SLUGS_QUERY = `*[
-  _type == "page" &&
-  defined(slug.current) &&
-  slug.current != "home"
-][].slug.current`;
+  (_type == "page" && defined(slug.current) && slug.current != "home") ||
+  _type == "galleryPage"
+]{ "slug": coalesce(slug.current, "galleri") }.slug`;

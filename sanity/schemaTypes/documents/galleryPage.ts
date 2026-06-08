@@ -6,6 +6,15 @@ export const galleryPage = defineType({
   type: "document",
   fields: [
     defineField({
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      description: "URL-segmentet för gallerisidan, t.ex. /galleri",
+      options: { source: "title" },
+      initialValue: { current: "galleri" },
+      validation: (r) => r.required(),
+    }),
+    defineField({
       name: "title",
       title: "Titel",
       type: "string",
@@ -43,7 +52,10 @@ export const galleryPage = defineType({
     }),
   ],
   preview: {
-    select: { title: "title" },
-    prepare: ({ title }) => ({ title }),
+    select: { subtitle: "slug.current" },
+    prepare: ({ subtitle }) => ({
+      title: "Folkets tryck",
+      subtitle: subtitle ? `/${subtitle}` : "/galleri",
+    }),
   },
 });
