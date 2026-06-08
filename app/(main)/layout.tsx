@@ -49,7 +49,7 @@ export default async function RootLayout({
         <header className="sticky top-0 z-1 py-sp-sm px-sp-lg flex items-start justify-between">
           <Link
             href="/"
-            className="bg-white rounded-full border-2 border-white"
+            className="bg-white/80 backdrop-blur-xs rounded-full border-2 border-white"
           >
             {/* eslint-disable-next-line @next/next/no-img-element -- SVG, next/image doesn't support it */}
             <img
