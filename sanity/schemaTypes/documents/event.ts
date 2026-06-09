@@ -41,9 +41,9 @@ export const event = defineType({
       title: "Beskrivning",
       type: "text",
       rows: 3,
-      initialValue: "Kom och tryck ditt eget plakat inför valet.",
+      initialValue: "Kom och tryck din egen affisch.",
       validation: (Rule) =>
-        Rule.required().max(100).error("Plats får inte överstiga 100 tecken"),
+        Rule.max(100).error("Plats får inte överstiga 100 tecken"),
     }),
   ],
   preview: {

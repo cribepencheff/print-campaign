@@ -15,7 +15,7 @@ export function HeroSection({
 }) {
   if (pageType === "home") {
     return (
-      <section className="flex items-center relative not-lg:flex-col gap-sp-xl py-20 not-lg:py-10 w-full min-h-[90dvh] px-sp-lg">
+      <section className="flex items-center relative not-lg:flex-col gap-sp-xl py-20 not-lg:py-10 w-full min-h-[90dvh]">
         <div className="w-full max-w-container mx-auto flex items-center gap-12 not-lg:flex-col">
           <div className="relative flex-1">
             <motion.h1

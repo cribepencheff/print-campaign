@@ -46,7 +46,7 @@ export default async function RootLayout({
       className={`${bricolage.variable} ${capriola.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="fixed w-full top-0 z-1 py-sp-sm px-sp-lg flex items-start justify-between">
+        <header className="fixed w-full top-0 z-1 py-sp-sm px-sp-sm lg:px-sp-lg flex items-start justify-between">
           <Link
             href="/"
             className="bg-white/80 backdrop-blur-xs rounded-full border-2 border-white"
