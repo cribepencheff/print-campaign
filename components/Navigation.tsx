@@ -41,7 +41,7 @@ export function Navigation({ links }: { links: NavLink[] }) {
           <button
             onClick={() => setIsOpen(false)}
             aria-label="Stäng meny"
-            className="absolute right-sp-lg top-sp-sm p-sp-sm flex items-center justify-center rounded-full hover:bg-yellow cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-black transition-colors"
+            className="absolute right-sp-lg top-sp-sm p-sp-sm flex items-center justify-center rounded-full not-md:bg-yellow hover:bg-yellow cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-black transition-colors"
           >
             <X size={20} />
           </button>

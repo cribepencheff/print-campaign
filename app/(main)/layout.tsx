@@ -46,7 +46,7 @@ export default async function RootLayout({
       className={`${bricolage.variable} ${capriola.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="sticky top-0 z-1 py-sp-sm px-sp-lg flex items-start justify-between">
+        <header className="fixed w-full top-0 z-1 py-sp-sm px-sp-lg flex items-start justify-between">
           <Link
             href="/"
             className="bg-white/80 backdrop-blur-xs rounded-full border-2 border-white"
@@ -55,7 +55,7 @@ export default async function RootLayout({
             <img
               src="/brand/logo_v1.svg"
               alt="Antirasistisk valstuga logotyp"
-              className="h-12 md:h-20"
+              className="h-16 md:h-20 animate-[spin_15s_linear_infinite] hover:[animation-play-state:paused]"
             />
           </Link>
           {nav?.links && <Navigation links={nav.links} />}

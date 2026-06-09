@@ -41,6 +41,18 @@ const blockMembers = [
       { name: "text", title: "Text", type: "string" },
       { name: "href", title: "URL", type: "string" },
       { name: "blank", title: "Öppna i ny flik", type: "boolean" },
+      {
+        name: "variant",
+        title: "Utseende",
+        type: "string",
+        options: {
+          list: [
+            { title: "Standard", value: "primary", default: true },
+            { title: "Accent", value: "accent" },
+            { title: "Outline", value: "outline" },
+          ],
+        },
+      },
     ],
   }),
 ];

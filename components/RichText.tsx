@@ -1,16 +1,17 @@
 import { PortableText, type PortableTextComponents } from "next-sanity";
+import { Button } from "@/components/Button";
 
 const components: PortableTextComponents = {
   types: {
     button: ({ value }) => (
-      <a
+      <Button
+        variant={value.variant ?? "primary"}
         href={value.href}
-        target={value.blank ? "_blank" : undefined}
-        rel={value.blank ? "noopener noreferrer" : undefined}
-        className="inline-block bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition-colors"
+        targetBlank={value.blank}
+        className="lg:max-w-120 my-sp-sm"
       >
         {value.text}
-      </a>
+      </Button>
     ),
   },
 };

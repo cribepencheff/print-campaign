@@ -6,7 +6,11 @@ export type HeroSection = {
   heading: string;
   description?: PortableTextBlock[];
   image?: {
-    asset: { _id: string; url: string };
+    asset: {
+      _id: string;
+      url: string;
+      metadata: { dimensions: { width: number; height: number } };
+    };
     alt?: string;
     hotspot?: { x: number; y: number };
   };

@@ -19,6 +19,7 @@
     "@sanity/image-url": "^2.1.1",
     "@sanity/locale-sv-se": "^1.2.33",
     "@sanity/vision": "^5.26.0",
+    "@tailwindcss/typography": "^0.5.20",
     "framer-motion": "^12.40.0",
     "libphonenumber-js": "^1.13.4",
     "lucide-react": "^1.17.0",
