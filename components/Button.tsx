@@ -1,5 +1,6 @@
 import { Button as HUIButton } from "@headlessui/react";
 import { cloneElement, isValidElement } from "react";
+import Link from "next/link";
 
 type Variant = "primary" | "accent" | "outline";
 type Size = "small" | "default";
@@ -48,17 +49,28 @@ export function Button({
     : icon;
 
   if (href) {
+    const isHash = href.startsWith("#");
+    const sharedProps = {
+      target: targetBlank ? "_blank" : undefined,
+      rel: targetBlank ? "noopener noreferrer" : undefined,
+      className: `${baseClasses} ${variants[variant]} ${sizes[size]} ${className ?? ""}`,
+    };
+
+    if (isHash) {
+      return (
+        // <a> used to avoid Next.js router cache interfering with hash navigation
+        <a href={href} {...sharedProps}>
+          {icon ? <span className="-ml-0.5">{renderedIcon}</span> : null}
+          {children}
+        </a>
+      );
+    }
+
     return (
-      // <a> used to avoid Next.js router cache interfering with hash navigation
-      <a
-        href={href}
-        target={targetBlank ? "_blank" : undefined}
-        rel={targetBlank ? "noopener noreferrer" : undefined}
-        className={`${baseClasses} ${variants[variant]} ${sizes[size]} ${className ?? ""}`}
-      >
+      <Link href={href} {...sharedProps}>
         {icon ? <span className="-ml-0.5">{renderedIcon}</span> : null}
         {children}
-      </a>
+      </Link>
     );
   }
 
