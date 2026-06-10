@@ -5,6 +5,7 @@ import { FileUploadSection } from "./sections/FileUploadSection";
 import { GalleryPreviewSection } from "./sections/GalleryPreviewSection";
 import { HeroSection } from "./sections/HeroSection";
 import { NewsletterSection } from "./sections/NewsletterSection";
+import { StatementSection } from "./sections/StatementSection";
 import { TextSection } from "./sections/TextSection";
 
 type SectionRegistry = {
@@ -20,10 +21,11 @@ const registry: SectionRegistry = {
   fileUpload: FileUploadSection,
   newsletter: NewsletterSection,
   galleryPreview: GalleryPreviewSection,
+  statementSection: StatementSection,
 };
 
 function getSectionTitle(section: Section): string | undefined {
-  return section.heading as string;
+  return "heading" in section ? (section as { heading?: string }).heading : undefined;
 }
 
 export function SectionRenderer({

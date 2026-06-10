@@ -57,6 +57,12 @@ export type NewsletterSection = {
   description?: string;
 };
 
+export type StatementSection = {
+  _type: "statementSection";
+  _key: string;
+  text: string;
+};
+
 export type GalleryPreviewSection = {
   _type: "galleryPreview";
   _key: string;
@@ -77,4 +83,5 @@ export type Section =
   | EventSection
   | FileUploadSection
   | NewsletterSection
-  | GalleryPreviewSection;
+  | GalleryPreviewSection
+  | StatementSection;

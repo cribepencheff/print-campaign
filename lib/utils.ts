@@ -1,4 +1,5 @@
-export function slugify(str: string) {
+export function slugify(str: string | undefined | null) {
+  if (!str) return "";
   return str
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")

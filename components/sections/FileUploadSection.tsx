@@ -45,7 +45,7 @@ function FormField({
         type={type}
         placeholder={placeholder}
         {...registration}
-        className="block w-full bg-white rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-white/50"
+        className="block w-full bg-white rounded px-3 py-3 text-md focus:outline-none focus:ring-2 focus:ring-white/50"
       />
       {error && <FormError key={errorKey} message={error} />}
     </div>
