@@ -350,7 +350,7 @@ export function FileUploadSection({
                 className="text-purple"
                 onClick={resetForNewUpload}
               >
-                Anmäl dig till nyhetsbrevet.
+                Anmäl dig så hör vi av oss.
               </a>
             )}
           </p>
