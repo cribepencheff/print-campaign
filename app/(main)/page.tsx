@@ -16,18 +16,12 @@ export default async function Home() {
 
   if (!page) {
     return (
-      <main className="p-8">
-        <p className="text-gray-500">
-          Skapa en sida med slug &quot;home&quot; i Sanity Studio för att
-          aktivera startsidan.
-        </p>
-      </main>
+      <p className="text-gray-500">
+        Skapa en sida med slug &quot;home&quot; i Sanity Studio för att aktivera
+        startsidan.
+      </p>
     );
   }
 
-  return (
-    <main>
-      <SectionRenderer sections={page.content ?? []} pageType="home" />
-    </main>
-  );
+  return <SectionRenderer sections={page.content ?? []} pageType="home" />;
 }

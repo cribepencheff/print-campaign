@@ -23,7 +23,7 @@ export function Navigation({ links }: { links: NavLink[] }) {
       <button
         onClick={() => setIsOpen(true)}
         aria-label="Öppna meny"
-        className="flex items-center justify-center p-sp-sm rounded-full bg-white cursor-pointer"
+        className="flex items-center justify-center p-sp-sm rounded-full bg-white cursor-pointer focus:outline-none focus-visible:ring-2"
       >
         <Menu size={20} />
       </button>
@@ -41,7 +41,7 @@ export function Navigation({ links }: { links: NavLink[] }) {
           <button
             onClick={() => setIsOpen(false)}
             aria-label="Stäng meny"
-            className="absolute right-sp-lg top-sp-sm p-sp-sm flex items-center justify-center rounded-full not-md:bg-yellow hover:bg-yellow cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-black transition-colors"
+            className="absolute right-sp-lg top-sp-sm p-sp-sm flex items-center justify-center rounded-full not-md:bg-yellow hover:bg-yellow cursor-pointer focus:outline-none focus-visible:ring-2"
           >
             <X size={20} />
           </button>
@@ -64,7 +64,7 @@ export function Navigation({ links }: { links: NavLink[] }) {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`${pathname === link.href ? "text-purple" : ""} flex flex-row items-center gap-sp-xs text-4xl hover:opacity-60 pt-sp-xs transition-opacity heading`}
+                    className={`${pathname === link.href ? "text-purple" : ""} flex flex-row items-center gap-sp-xs text-3xl md:text-4xl hover:opacity-60 pt-sp-xs transition-opacity heading`}
                   >
                     {pathname === link.href && (
                       // eslint-disable-next-line @next/next/no-img-element -- SVG, next/image doesn't support it

@@ -16,13 +16,13 @@ export function HeroSection({
   if (pageType === "home") {
     return (
       <section className="flex items-center relative not-lg:flex-col gap-sp-xl py-20 not-lg:py-10 w-full min-h-[90dvh]">
-        <div className="w-full max-w-container mx-auto flex items-center gap-12 not-lg:flex-col">
+        <div className="w-full container mx-auto flex items-center gap-12 not-lg:flex-col">
           <div className="relative flex-1">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 15 }}
-              className="leading-[0.875] text-[8vw] lg:text-[6vw] xl:text-7xl font-bold mb-4 max-w-3xl"
+              className="heading leading-[0.875] text-[8vw] lg:text-[6vw] xl:text-7xl mb-4 max-w-3xl"
             >
               {section.heading}
             </motion.h1>

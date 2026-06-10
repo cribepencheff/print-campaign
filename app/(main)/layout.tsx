@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Capriola, Geist_Mono } from "next/font/google";
-import Link from "next/link";
-import { Navigation } from "@/components/Navigation";
+import { Header } from "@/components/Header";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { NAV_QUERY } from "@/sanity/lib/queries";
 import "../globals.css";
@@ -46,20 +45,7 @@ export default async function RootLayout({
       className={`${bricolage.variable} ${capriola.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="fixed w-full top-0 z-1 py-sp-sm px-sp-sm lg:px-sp-lg flex items-start justify-between">
-          <Link
-            href="/"
-            className="bg-white/80 backdrop-blur-xs rounded-full border-2 border-white"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element -- SVG, next/image doesn't support it */}
-            <img
-              src="/brand/logo_v1.svg"
-              alt="Antirasistisk valstuga logotyp"
-              className="h-16 md:h-20 animate-[spin_15s_linear_infinite] hover:[animation-play-state:paused]"
-            />
-          </Link>
-          {nav?.links && <Navigation links={nav.links} />}
-        </header>
+        <Header links={nav?.links} />
 
         <main className="flex-1">{children}</main>
 

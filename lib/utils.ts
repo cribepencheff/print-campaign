@@ -12,6 +12,6 @@ export function formatEventDate(date: string) {
   return {
     weekday: d.toLocaleDateString("sv-SE", { weekday: "short" }),
     date: d.toLocaleDateString("sv-SE", { day: "numeric" }),
-    month: d.toLocaleDateString("sv-SE", { month: "short" }).slice(0, 3),
+    month: d.toLocaleDateString("sv-SE", { month: "numeric" }),
   };
 }
