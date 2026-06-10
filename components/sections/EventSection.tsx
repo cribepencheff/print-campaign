@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin } from "lucide-react";
+import { MapPin, MapPinOff } from "lucide-react";
 import { Button } from "@/components/Button";
 import { formatEventDate } from "@/lib/utils";
 import type { EventSection as EventSectionType } from "@/types/sections";
@@ -27,14 +27,21 @@ export function EventSection({ section }: { section: EventSectionType }) {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
-            variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.08 } } }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.08 } },
+            }}
           >
             {section.events.map((event) => (
               <motion.li
                 key={event._id}
                 variants={{
                   hidden: { opacity: 0, y: 20 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.4, ease: "easeOut" },
+                  },
                 }}
                 className="p-sp-xs rounded bg-white flex flex-row items-start md:items-center not-md:flex-wrap mb-sp-sm md:mb-sp-xs gap-y-sp-xs gap-x-sp-sm md:gap-x-sp-md"
               >
@@ -54,8 +61,8 @@ export function EventSection({ section }: { section: EventSectionType }) {
                   <p>{event.title}</p>
                   <p className="opacity-60">{event.location}</p>
                 </div>
-                {event.location && (
-                  <div className="flex not-md:w-full not-md:justify-end">
+                <div className="flex not-md:w-full not-md:justify-end">
+                  {event.location ? (
                     <Button
                       variant="accent"
                       size="small"
@@ -66,8 +73,17 @@ export function EventSection({ section }: { section: EventSectionType }) {
                     >
                       Karta
                     </Button>
-                  </div>
-                )}
+                  ) : (
+                    <Button
+                      size="small"
+                      icon={<MapPinOff size={20} />}
+                      className="not-md:w-auto bg-red pointer-events-none"
+                      disabled
+                    >
+                      Karta
+                    </Button>
+                  )}
+                </div>
               </motion.li>
             ))}
           </motion.ul>

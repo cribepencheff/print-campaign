@@ -2,6 +2,7 @@ import { slugify } from "@/lib/utils";
 import type { Section } from "@/types/sections";
 import { EventSection } from "./sections/EventSection";
 import { FileUploadSection } from "./sections/FileUploadSection";
+import { GalleryPreviewSection } from "./sections/GalleryPreviewSection";
 import { HeroSection } from "./sections/HeroSection";
 import { NewsletterSection } from "./sections/NewsletterSection";
 import { TextSection } from "./sections/TextSection";
@@ -18,6 +19,7 @@ const registry: SectionRegistry = {
   eventList: EventSection,
   fileUpload: FileUploadSection,
   newsletter: NewsletterSection,
+  galleryPreview: GalleryPreviewSection,
 };
 
 function getSectionTitle(section: Section): string | undefined {

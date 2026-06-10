@@ -1,6 +1,6 @@
 import { Button as HUIButton } from "@headlessui/react";
-import { cloneElement, isValidElement } from "react";
 import Link from "next/link";
+import { cloneElement, isValidElement } from "react";
 
 type Variant = "primary" | "accent" | "outline";
 type Size = "small" | "default";

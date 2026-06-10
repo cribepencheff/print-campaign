@@ -2,10 +2,10 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CircleAlert, ImageUp, LoaderCircle, X } from "lucide-react";
-import { Modal } from "@/components/Modal";
 import { useRef, useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { Button } from "@/components/Button";
+import { Modal } from "@/components/Modal";
 import {
   uploadSchema,
   type UploadFormValues,
@@ -213,9 +213,7 @@ export function FileUploadSection({
     <section className="bg-red/80">
       <div className="flex flex-col w-full container mx-auto">
         {section.heading && (
-          <h2 className="text-4xl max-w-2xl font-bold mb-4">
-            {section.heading}
-          </h2>
+          <h2 className="text-4xl max-w-2xl mb-4">{section.heading}</h2>
         )}
         {section.description && (
           <div className="prose prose-lg not-md:prose-base">

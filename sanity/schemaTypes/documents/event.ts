@@ -34,7 +34,6 @@ export const event = defineType({
       title: "Plats",
       type: "string",
       description: 'T.ex. "Medborgarplatsen 29, 118 26 Stockholm"',
-      validation: (Rule) => Rule.required(),
     }),
   ],
   preview: {

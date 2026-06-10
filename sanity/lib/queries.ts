@@ -18,6 +18,10 @@ export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0
       "events": *[_type == "event"] | order(date asc) {
         _id, title, date, location, description
       }
+    },
+    _type == "galleryPreview" => {
+      "images": *[_type == "galleryPage"][0].images[0...4]{ _key, alt, caption, asset-> },
+      "gallerySlug": *[_type == "galleryPage"][0].slug.current
     }
   }
 }`;

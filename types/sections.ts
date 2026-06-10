@@ -57,9 +57,24 @@ export type NewsletterSection = {
   description?: string;
 };
 
+export type GalleryPreviewSection = {
+  _type: "galleryPreview";
+  _key: string;
+  heading?: string;
+  description?: string;
+  images: {
+    _key: string;
+    alt?: string;
+    caption?: string;
+    asset: { url: string };
+  }[];
+  gallerySlug?: string;
+};
+
 export type Section =
   | HeroSection
   | TextSection
   | EventSection
   | FileUploadSection
-  | NewsletterSection;
+  | NewsletterSection
+  | GalleryPreviewSection;

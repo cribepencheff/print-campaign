@@ -6,6 +6,7 @@ import { motiveSubmission } from "./documents/motiveSubmission";
 import { page } from "./documents/page";
 import { eventList } from "./sections/eventList";
 import { fileUpload } from "./sections/fileUpload";
+import { galleryPreview } from "./sections/galleryPreview";
 import { hero } from "./sections/hero";
 import { newsletter } from "./sections/newsletter";
 import { textSection } from "./sections/textSection";
@@ -26,6 +27,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     eventList,
     fileUpload,
     newsletter,
+    galleryPreview,
 
     // UI - Custom input components and portable text definitions
     blockContent,
