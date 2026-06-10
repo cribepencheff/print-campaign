@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { motion } from "framer-motion";
-import { CircleAlert, ImageUp, X } from "lucide-react";
+import { CircleAlert, ImageUp, LoaderCircle, X } from "lucide-react";
+import { Modal } from "@/components/Modal";
 import { useRef, useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { Button } from "@/components/Button";
@@ -76,6 +76,7 @@ export function FileUploadSection({
   const [uploadStatus, setUploadStatus] = useState<
     "uploading" | "success" | null
   >(null);
+
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [fileErrorKey, setFileErrorKey] = useState(0);
@@ -208,45 +209,6 @@ export function FileUploadSection({
     }
   }
 
-  if (uploadStatus === "success") {
-    return (
-      <section className="py-24 pt-26 sm:pt-32 bg-red">
-        <div className="flex flex-col w-full container mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <p className="text-2xl font-bold text-white">
-              Tack för ditt bidrag!
-            </p>
-            <p className="text-white/70 mt-2">
-              Din bild är mottagen och granskas.
-            </p>
-            <div className="mt-6 flex flex-col items-start gap-3">
-              <button
-                type="button"
-                onClick={resetForNewUpload}
-                className="underline text-sm text-white/70 hover:text-white transition-colors"
-              >
-                Ladda upp ett till motiv
-              </button>
-
-              {hasNewsletter && (
-                <a
-                  href="#newsletter"
-                  className="underline text-sm text-white/70 hover:text-white transition-colors"
-                >
-                  Vill du hålla dig uppdaterad? Anmäl dig till nyhetsbrevet.
-                </a>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section className="bg-red/80">
       <div className="flex flex-col w-full container mx-auto">
@@ -358,13 +320,44 @@ export function FileUploadSection({
               {submitError && (
                 <FormError key={submitErrorKey} message={submitError} />
               )}
-              <Button type="submit" disabled={uploadStatus === "uploading"}>
+              <Button
+                icon={
+                  uploadStatus === "uploading" ? (
+                    <LoaderCircle className="animate-spin" />
+                  ) : undefined
+                }
+                type="submit"
+                disabled={uploadStatus === "uploading"}
+              >
                 {uploadStatus === "uploading" ? "Laddar upp…" : "Skicka in"}
               </Button>
             </div>
           </div>
         </form>
       </div>
+
+      <Modal
+        isOpen={uploadStatus === "success"}
+        onClose={resetForNewUpload}
+        title="Tack för ditt bidrag!"
+      >
+        <div className="prose prose-lg not-md:prose-base">
+          <p>Din bild är mottagen och granskas.</p>
+
+          <p className="">
+            Vill du hålla dig uppdaterad? <br />
+            {hasNewsletter && (
+              <a
+                href="#newsletter"
+                className="text-purple"
+                onClick={resetForNewUpload}
+              >
+                Anmäl dig till nyhetsbrevet.
+              </a>
+            )}
+          </p>
+        </div>
+      </Modal>
     </section>
   );
 }

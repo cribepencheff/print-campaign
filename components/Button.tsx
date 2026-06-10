@@ -39,7 +39,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseClasses =
-    "w-full no-underline flex gap-sp-xs justify-center items-center heading rounded border border-black shadow-[0px_0px_0px_#000] hover:shadow-[2px_2px_0px_#000] translate-0 hover:-translate-0.5 transition-[transform, shadow, bg-color] duration-200 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed";
+    "w-full no-underline flex gap-sp-xs justify-center items-center heading rounded border border-black shadow-[0px_0px_0px_#000] hover:shadow-[2px_2px_0px_#000] translate-0 hover:-translate-0.5 transition-[transform, shadow, bg-color] duration-200 disabled:opacity-60 cursor-pointer disabled:cursor-not-allowed";
 
   const renderedIcon = isValidElement(icon)
     ? cloneElement(icon as React.ReactElement<IconProps>, {
