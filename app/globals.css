@@ -41,7 +41,7 @@
 }
 
 @theme {
-  --max-width-container: 1340px;
+  --max-width-container: 1200px;
   --max-width-container-sm: 620px;
   --max-width-container-form: 540px;
   --animate-shake: shake 0.4s ease-in-out;
@@ -102,6 +102,12 @@ main > div > section {
     padding-inline: var(--spacing-sp-xxl);
     padding-block: calc(var(--spacing) * 28);
   }
+}
+
+footer {
+  padding-inline: var(--spacing-sp-xl);
+  padding-top: calc(var(--spacing) * 12);
+  padding-bottom: calc(var(--spacing) * 16);
 }
 
 main > div:first-child > section {

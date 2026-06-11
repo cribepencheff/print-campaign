@@ -162,7 +162,7 @@ export function NewsletterSection({
       </Modal>
 
       <section className="mx-auto bg-purplelight/60">
-        <div className="flex flex-col max-w-[calc(var(--max-width-container-form)+8rem)] mx-auto w-full">
+        <div className="flex flex-col container lg:w-[calc(var(--max-width-container-form)+8rem)] mx-auto w-full">
           {heading && <h2 className="text-4xl max-w-2xl mb-4">{heading}</h2>}
           {description && (
             <div className="prose prose-lg not-md:prose-base">

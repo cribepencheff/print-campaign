@@ -43,8 +43,8 @@ export function StatementSection({
       ref={ref}
       className="min-h-[60dvh] flex items-center xl:text-justify hyphens-auto bg-purple"
     >
-      <div className="max-w-300 mx-auto w-full">
-        <p className="text-[9dvw] md:text-6xl lg:text-7xl heading leading-tight md:leading-19 tracking-tighter text-yellow">
+      <div className="container mx-auto w-full">
+        <p className="whitespace-pre-line text-[9dvw] md:text-6xl lg:text-7xl heading leading-tight md:leading-19 tracking-tighter text-yellow">
           {words.map((word, i) => (
             <Word
               key={i}

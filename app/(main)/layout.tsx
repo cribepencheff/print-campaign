@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Capriola, Geist_Mono } from "next/font/google";
+import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { NAV_QUERY } from "@/sanity/lib/queries";
@@ -49,12 +50,7 @@ export default async function RootLayout({
 
         <main className="flex-1">{children}</main>
 
-        <footer className="bg-gray-100 text-center py-4">
-          <p className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} Print Campaign. All rights
-            reserved.
-          </p>
-        </footer>
+        <Footer />
       </body>
     </html>
   );

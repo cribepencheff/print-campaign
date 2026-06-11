@@ -40,17 +40,8 @@ export const DOCUMENT_BY_SLUG_QUERY = `*[
   "images": select(_type == "galleryPage" => images[] { _key, alt, caption, asset-> })
 }`;
 
-// Global footer — singleton, hämtas i layout
-export const FOOTER_QUERY = `*[_type == "footer"][0]{
-  logo { ..., alt, asset-> },
-  navigationGroups[] {
-    _key,
-    title,
-    links[] { _key, label, href }
-  },
-  socialLinks[] { _key, platform, url },
-  copyright
-}`;
+// Footer-data från settings-singleton
+export const FOOTER_QUERY = `*[_type == "settings"][0]{ footerText }`;
 
 // Globala inställningar — singleton
 export const SETTINGS_QUERY = `*[_type == "settings"][0]{
