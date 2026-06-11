@@ -2,7 +2,7 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
+  --background: #fbfedc;
   --foreground: #42210b;
 }
 
@@ -70,8 +70,12 @@ html {
 }
 
 body {
-  background: hsla(67, 100%, 67%, 0.25);
+  background: var(--background);
   color: var(--foreground);
+}
+
+main {
+  background: var(--background);
 }
 
 h1,
@@ -113,9 +117,17 @@ main > div > section {
 }
 
 footer {
-  padding-inline: var(--spacing-sp-xl);
+  padding-inline: var(--spacing-sp-md);
   padding-top: calc(var(--spacing) * 12);
   padding-bottom: calc(var(--spacing) * 16);
+
+  @media (width >= theme(--breakpoint-lg)) {
+    padding-inline: var(--spacing-sp-xxl);
+  }
+
+  @media (width >= theme(--breakpoint-sm)) {
+    padding-inline: var(--spacing-sp-xxl);
+  }
 }
 
 main > div:first-child > section {
