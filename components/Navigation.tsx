@@ -18,15 +18,18 @@ export function Navigation({ links }: { links: NavLink[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  function homeClickHandler(
+  function handleNavClick(
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string
   ) {
-    if (href === "/" && pathname === "/") {
+    if (href === pathname) {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      window.history.replaceState(null, "", "/");
+      if (href === "/") window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (pathname === "/" && href.startsWith("/#")) {
+      e.preventDefault();
+      document.getElementById(href.slice(2))?.scrollIntoView({ behavior: "smooth" });
     }
+    setIsOpen(false);
   }
 
   return (
@@ -34,7 +37,7 @@ export function Navigation({ links }: { links: NavLink[] }) {
       <button
         onClick={() => setIsOpen(true)}
         aria-label="Öppna meny"
-        className="flex items-center justify-center p-sp-sm rounded-full bg-white cursor-pointer focus:outline-none focus-visible:ring-2"
+        className="flex items-center justify-center p-sp-sm rounded-full bg-white cursor-pointer focus:outline-none focus-visible:outline-none"
       >
         <Menu size={20} />
       </button>
@@ -52,7 +55,7 @@ export function Navigation({ links }: { links: NavLink[] }) {
           <button
             onClick={() => setIsOpen(false)}
             aria-label="Stäng meny"
-            className="absolute right-sp-lg top-sp-sm p-sp-sm flex items-center justify-center rounded-full not-md:bg-yellow hover:bg-yellow cursor-pointer focus:outline-none focus-visible:ring-2"
+            className="absolute right-sp-lg top-sp-sm p-sp-sm flex items-center justify-center rounded-full not-md:bg-yellow hover:bg-yellow cursor-pointer focus:outline-none focus-visible:outline-none"
           >
             <X size={20} />
           </button>
@@ -74,10 +77,7 @@ export function Navigation({ links }: { links: NavLink[] }) {
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={(e) => {
-                      homeClickHandler(e, link.href);
-                      setIsOpen(false);
-                    }}
+                    onClick={(e) => handleNavClick(e, link.href)}
                     className={`${pathname === link.href ? "text-purple" : ""} flex flex-row items-center gap-sp-xs text-3xl md:text-4xl hover:opacity-60 pt-sp-xs transition-opacity heading`}
                   >
                     {pathname === link.href && (
