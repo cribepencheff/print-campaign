@@ -61,6 +61,12 @@ export const NAV_QUERY = `*[_type == "settings"][0]{
   }
 }`;
 
+// Metadata (titel) för dynamiska slug-sidor
+export const METADATA_BY_SLUG_QUERY = `*[
+  (_type == "page" || _type == "galleryPage") &&
+  coalesce(slug.current, "galleri") == $slug
+][0]{ title }`;
+
 // Alla slugs för generateStaticParams
 // Exkluderar "home" — det är index-routen (/), inte en /[slug]-sida
 // coalesce ger galleryPage fallback "galleri" om slug saknas på befintligt dokument

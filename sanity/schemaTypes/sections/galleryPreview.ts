@@ -1,9 +1,11 @@
+import { ImagesIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
 
 export const galleryPreview = defineType({
   name: "galleryPreview",
   title: "Galleri-preview",
   type: "object",
+  icon: ImagesIcon,
   fields: [
     defineField({
       name: "heading",
@@ -20,7 +22,9 @@ export const galleryPreview = defineType({
   preview: {
     select: { title: "heading" },
     prepare: ({ title }) => ({
-      title: `Galleri-preview${title ? `: ${title}` : ""}`,
+      title: title ?? "Galleri-preview",
+      subtitle: "Visar bilder från galleriet",
+      media: ImagesIcon,
     }),
   },
 });

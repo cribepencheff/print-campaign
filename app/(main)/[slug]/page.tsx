@@ -1,9 +1,14 @@
 import type { PortableTextBlock } from "@portabletext/types";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { GalleryPage } from "@/components/GalleryPage";
 import { SectionRenderer } from "@/components/SectionRenderer";
 import { sanityFetch } from "@/sanity/lib/fetch";
-import { ALL_SLUGS_QUERY, DOCUMENT_BY_SLUG_QUERY } from "@/sanity/lib/queries";
+import {
+  ALL_SLUGS_QUERY,
+  DOCUMENT_BY_SLUG_QUERY,
+  METADATA_BY_SLUG_QUERY,
+} from "@/sanity/lib/queries";
 import type { Section } from "@/types/sections";
 
 type GalleryImage = {
@@ -29,6 +34,15 @@ type Page =
 
 type Props = { params: Promise<{ slug: string }> };
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const doc = await sanityFetch<{ title: string } | null>({
+    query: METADATA_BY_SLUG_QUERY,
+    params: { slug },
+  });
+  return { title: doc?.title };
+}
+
 export async function generateStaticParams() {
   const slugs = await sanityFetch<string[]>({
     query: ALL_SLUGS_QUERY,
@@ -51,19 +65,13 @@ export default async function SlugPage({ params }: Props) {
 
   if (doc._type === "galleryPage") {
     return (
-      <main>
-        <GalleryPage
-          title={doc.title}
-          description={doc.description}
-          images={doc.images}
-        />
-      </main>
+      <GalleryPage
+        title={doc.title}
+        description={doc.description}
+        images={doc.images}
+      />
     );
   }
 
-  return (
-    <main>
-      <SectionRenderer sections={doc.sections ?? []} pageType={doc._type} />
-    </main>
-  );
+  return <SectionRenderer sections={doc.sections ?? []} pageType={doc._type} />;
 }

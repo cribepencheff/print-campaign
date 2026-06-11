@@ -86,10 +86,18 @@ h6 {
 @layer base {
   .prose p {
     white-space: pre-line;
-    color: var(--foreground);
   }
 }
 
+.prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-links: var(--foreground);
+  --tw-prose-quotes: var(--foreground);
+}
+
+main > section,
 main > div > section {
   padding-inline: var(--spacing-sp-md);
   padding-block: calc(var(--spacing) * 24);

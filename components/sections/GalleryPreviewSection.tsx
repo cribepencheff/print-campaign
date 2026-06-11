@@ -72,7 +72,7 @@ export function GalleryPreviewSection({
           icon={<ArrowUpRightIcon />}
           className="mt-8 md:mt-12 ml-auto max-w-fit bg-yellow text-black hover:bg-yellow"
         >
-          Alla tryck
+          Fler tryck
         </Button>
       </div>
     </section>
