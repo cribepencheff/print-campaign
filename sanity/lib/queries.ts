@@ -9,7 +9,7 @@ export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0
   _type,
   title,
   slug,
-  content[] {
+  "sections": content[] {
     _type,
     _key,
     ...,
@@ -35,7 +35,7 @@ export const DOCUMENT_BY_SLUG_QUERY = `*[
   _type,
   title,
   slug,
-  "pageContent": select(_type == "page" => content[] { _type, _key, ..., image { ..., alt, asset-> } }),
+  "sections": select(_type == "page" => content[] { _type, _key, ..., image { ..., alt, asset-> } }),
   "description": select(_type == "galleryPage" => description),
   "images": select(_type == "galleryPage" => images[] { _key, alt, caption, asset-> })
 }`;

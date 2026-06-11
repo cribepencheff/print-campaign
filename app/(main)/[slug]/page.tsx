@@ -17,7 +17,7 @@ type Page =
   | {
       _type: "page";
       title: string;
-      pageContent: Section[];
+      sections: Section[];
     }
   | {
       _type: "galleryPage";
@@ -39,6 +39,9 @@ export async function generateStaticParams() {
 
 export default async function SlugPage({ params }: Props) {
   const { slug } = await params;
+
+  if (slug === "home") notFound();
+
   const doc = await sanityFetch<Page>({
     query: DOCUMENT_BY_SLUG_QUERY,
     params: { slug },
@@ -60,7 +63,7 @@ export default async function SlugPage({ params }: Props) {
 
   return (
     <main>
-      <SectionRenderer sections={doc.pageContent ?? []} pageType={doc._type} />
+      <SectionRenderer sections={doc.sections ?? []} pageType={doc._type} />
     </main>
   );
 }

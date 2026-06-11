@@ -46,7 +46,7 @@ export function EventSection({ section }: { section: EventSectionType }) {
                 className="p-sp-xs rounded bg-white flex flex-row items-start md:items-center not-md:flex-wrap mb-sp-sm md:mb-sp-xs gap-y-sp-xs gap-x-sp-sm md:gap-x-sp-md"
               >
                 {event.date && (
-                  <div className="flex flex-col items-center md:w-14 ml-1 mb-0.75 not-md:mt-0.5">
+                  <div className="flex flex-col items-center md:w-14 ml-1 mb-0.75 not-md:mt-0.5 gap-0.5">
                     <p className="heading text-sm tracking-wide leading-sp-sm">
                       {formatEventDate(event.date).weekday}
                     </p>

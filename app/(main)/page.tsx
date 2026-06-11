@@ -5,7 +5,7 @@ import type { Section } from "@/types/sections";
 
 type HomePage = {
   title: string;
-  content: Section[];
+  sections: Section[];
 } | null;
 
 export default async function Home() {
@@ -23,5 +23,5 @@ export default async function Home() {
     );
   }
 
-  return <SectionRenderer sections={page.content ?? []} pageType="home" />;
+  return <SectionRenderer sections={page.sections ?? []} pageType="home" />;
 }

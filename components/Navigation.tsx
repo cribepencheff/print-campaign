@@ -18,6 +18,17 @@ export function Navigation({ links }: { links: NavLink[] }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
+  function homeClickHandler(
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) {
+    if (href === "/" && pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.replaceState(null, "", "/");
+    }
+  }
+
   return (
     <>
       <button
@@ -63,7 +74,10 @@ export function Navigation({ links }: { links: NavLink[] }) {
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={() => setIsOpen(false)}
+                    onClick={(e) => {
+                      homeClickHandler(e, link.href);
+                      setIsOpen(false);
+                    }}
                     className={`${pathname === link.href ? "text-purple" : ""} flex flex-row items-center gap-sp-xs text-3xl md:text-4xl hover:opacity-60 pt-sp-xs transition-opacity heading`}
                   >
                     {pathname === link.href && (
