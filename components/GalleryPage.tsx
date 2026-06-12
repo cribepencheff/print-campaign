@@ -38,7 +38,7 @@ export function GalleryPage({ title, description, images }: Props) {
     <>
       <section>
         <div className="flex flex-col w-full container mx-auto">
-          <h1 className="heading text-5xl lg:text-6xl mb-4">{title}</h1>
+          <h1 className="heading text-4xl lg:text-5xl mb-4">{title}</h1>
 
           {description && (
             <div className="prose prose-lg not-md:prose-base mb-12">

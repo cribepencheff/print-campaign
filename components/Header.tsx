@@ -32,7 +32,7 @@ export function Header({
         <img
           src="/brand/logo_v1.svg"
           alt="Antirasistisk valstuga logotyp"
-          className="h-16 md:h-20 animate-[spin_15s_linear_infinite] hover:[animation-play-state:paused]"
+          className="h-13 md:h-20 animate-[spin_15s_linear_infinite] hover:[animation-play-state:paused]"
         />
       </Link>
       {links && <Navigation links={links} />}
