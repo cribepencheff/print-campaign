@@ -146,6 +146,7 @@ footer a {
 
 main > .hero:first-child > section {
   padding-top: calc(var(--spacing-sp-xl) * 4);
+  background: linear-gradient(184deg, var(--color-yellow), transparent 26%);
 
   @media (width >= theme(--breakpoint-lg)) {
     padding-top: 16dvh;
