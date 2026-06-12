@@ -45,11 +45,16 @@ export function HeroSection({
                 {section.image?.asset && (
                   <Image
                     loading="eager"
-                    src={urlFor(section.image).width(100).url()}
+                    src={
+                      section.image.asset.mimeType === "image/gif"
+                        ? section.image.asset.url
+                        : urlFor(section.image).width(900).url()
+                    }
                     alt={section.image.alt ?? section.heading}
                     width={section.image.asset.metadata.dimensions.width}
                     height={section.image.asset.metadata.dimensions.height}
                     className="w-full not-lg:max-w-sm object-cover lg:pr-sp-sm"
+                    unoptimized={section.image.asset.mimeType === "image/gif"}
                   />
                 )}
               </picture>

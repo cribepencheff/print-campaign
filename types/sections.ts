@@ -9,6 +9,7 @@ export type HeroSection = {
     asset: {
       _id: string;
       url: string;
+      mimeType: string;
       metadata: { dimensions: { width: number; height: number } };
     };
     alt?: string;

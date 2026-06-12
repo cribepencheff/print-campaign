@@ -22,7 +22,7 @@ export const hero = defineType({
       description:
         "Rekommenderat format: JPG eller PNG, minst 1440x810 px, max 5 MB. Använd fokuspunkten (⊕) för att styra vilket område som alltid syns vid beskärning.",
       type: "image",
-      options: { hotspot: true, accept: "image/jpeg,image/png" },
+      options: { hotspot: true, accept: "image/jpeg,image/png,image/gif" },
       fields: [defineField({ name: "alt", title: "Alt-text", type: "string" })],
     }),
   ],
