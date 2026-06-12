@@ -140,15 +140,30 @@ footer {
   }
 }
 
-main > div:first-child > section {
+footer a {
+  color: inherit;
+}
+
+main > .hero:first-child > section {
   padding-top: calc(var(--spacing-sp-xl) * 4);
 
   @media (width >= theme(--breakpoint-lg)) {
     padding-top: 16dvh;
     padding-bottom: 8dvh;
   }
+}
 
-  background: linear-gradient(184deg, var(--color-yellow), transparent 26%);
+main > div:first-child > section {
+  background: var(--background);
+}
+
+main > div:first-child > section > div > h2:first-child {
+  font-size: var(--text-4xl);
+
+  @media (width >= theme(--breakpoint-lg)) {
+    font-size: var(--text-5xl);
+    line-height: var(--text-5xl--line-height);
+  }
 }
 
 .container {
