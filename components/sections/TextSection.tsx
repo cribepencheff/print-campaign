@@ -1,4 +1,4 @@
-import { PortableText } from "next-sanity";
+import { RichText } from "@/components/RichText";
 import type { TextSection as TextSectionType } from "@/types/sections";
 
 const bgClass: Record<NonNullable<TextSectionType["background"]>, string> = {
@@ -19,7 +19,7 @@ export function TextSection({ section }: { section: TextSectionType }) {
         )}
         {section.description && (
           <div className="prose prose-lg">
-            <PortableText value={section.description} />
+            <RichText value={section.description} />
           </div>
         )}
       </div>

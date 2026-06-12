@@ -14,6 +14,17 @@ const components: PortableTextComponents = {
       </Button>
     ),
   },
+  marks: {
+    link: ({ value, children }) => (
+      <a
+        href={value?.href}
+        target={value?.blank ? "_blank" : undefined}
+        rel={value?.blank ? "noopener noreferrer" : undefined}
+      >
+        {children}
+      </a>
+    ),
+  },
 };
 
 export function RichText({ value }: { value: unknown }) {
