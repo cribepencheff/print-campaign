@@ -15,7 +15,7 @@ export async function Footer() {
     <footer className="bg-black text-white">
       <div className="grid lg:grid-cols-[4fr_2fr] gap-sp-xl max-w-container mx-auto">
         <div>
-          <h3 className="flex iwhitespace-pre-line tems-center gap-sp-sm heading text-xl leading-none mb-sp-sm">
+          <h3 className="flex items-center gap-sp-sm heading text-xl leading-none mb-sp-sm">
             {/* eslint-disable-next-line @next/next/no-img-element -- SVG, next/image doesn't support it */}
             <img
               src="/brand/logo_v2.svg"
@@ -27,7 +27,7 @@ export async function Footer() {
           </h3>
 
           {data?.footerText && (
-            <div className="prose prose-xs text-white/70 leading-relaxed whitespace-pre-line">
+            <div className="prose prose-xs text-white/70 leading-relaxed">
               <RichText value={data?.footerText} />
             </div>
           )}

@@ -90,7 +90,13 @@ export function NewsletterSection({
     formState: { errors, isSubmitting, isSubmitSuccessful, submitCount },
   } = useForm<NewsletterFormValues>({
     resolver: zodResolver(newsletterSchema),
-    defaultValues: { email: "", firstName: "", lastName: "", phone: "" },
+    defaultValues: {
+      email: "",
+      firstName: "",
+      lastName: "",
+      phone: "",
+      consent: false,
+    },
     mode: "onBlur",
   });
 
@@ -207,6 +213,29 @@ export function NewsletterSection({
               error={errors.phone?.message}
               errorKey={submitCount}
             />
+
+            {/* Samtycke */}
+            <div>
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  id="consent"
+                  type="checkbox"
+                  {...register("consent")}
+                  className="mt-1 h-4 w-4 shrink-0 cursor-pointer accent-black"
+                />
+                <span className="text-sm leading-relaxed">
+                  Ja, jag samtycker till att ta emot nyhetsbrev från
+                  Skyddsrummet. Du kan när som helst avanmäla dig via länken i
+                  varje utskick.
+                </span>
+              </label>
+              {errors.consent && (
+                <FormError
+                  key={submitCount}
+                  message={errors.consent.message!}
+                />
+              )}
+            </div>
 
             {errors.root && (
               <FormError key={submitCount} message={errors.root.message!} />
