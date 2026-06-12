@@ -6,12 +6,13 @@ import { motiveSubmission } from "./documents/motiveSubmission";
 import { page } from "./documents/page";
 import { eventList } from "./sections/eventList";
 import { fileUpload } from "./sections/fileUpload";
+import { galleryPreview } from "./sections/galleryPreview";
 import { hero } from "./sections/hero";
 import { newsletter } from "./sections/newsletter";
+import { statementSection } from "./sections/statementSection";
 import { textSection } from "./sections/textSection";
 import { settings } from "./singletons/settings";
-import { blockContent } from "./ui/blockContent";
-import { simpleBlockContent } from "./ui/simpleBlockContent";
+import { blockContent, simpleBlockContent } from "./ui/blockContent";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -27,6 +28,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     eventList,
     fileUpload,
     newsletter,
+    galleryPreview,
+    statementSection,
 
     // UI - Custom input components and portable text definitions
     blockContent,

@@ -27,7 +27,7 @@ Most Next.js + Sanity projects are straightforward content sites. This one has a
 | Frontend + API | Next.js 16 / React 19 | App Router, built-in API routes, SSG/ISR                                       |
 | CMS + assets   | Sanity                | Headless, hosted CDN, Studio for moderation, free plan sufficient              |
 | Email / opt-in | Brevo                 | EU data storage, GDPR-compliant double opt-in, unlimited contacts on free plan |
-| Hosting        | Vercel                | Zero-config Next.js deploy, automatic CI/CD from GitHub                        |
+| Hosting        | Vercel                | Standard Next.js configuration, manual production deploy via script            |
 | Forms          | React Hook Form + Zod | Minimal boilerplate, shared schema between client and API route                |
 | Testing        | Jest + next/jest      | SWC compilation, no Babel, minimal config                                      |
 
@@ -168,7 +168,7 @@ yarn deploy     # Build locally and deploy prebuilt output to Vercel
 
 ## Constraints & decisions
 
-**Deployments run via CLI, not git push.** `yarn deploy` runs `vercel build && vercel deploy --prebuilt`. The build happens locally and only the output is uploaded. Vercel never runs a build on their end. This keeps the project well within Vercel Hobby's 200 build execution hours per month, which is consumed by every git-push-triggered build. Deployments via CLI typically complete in ~13 seconds.
+**Deployments run via CLI, not git push.** `yarn deploy` runs `vercel build --prod && vercel deploy --prebuilt --prod`. The build happens locally and only the output is uploaded. Vercel never runs a build on their end. This keeps the project well within Vercel Hobby's 200 build execution hours per month, which is consumed by every git-push-triggered build. Deployments via CLI typically complete in ~13 seconds.
 
 **Asset visibility.** Sanity's free plan does not support private assets (`visibility: private`). Uploaded files are accessible via CDN URL if someone knows the link. This is an accepted trade-off for the current scope. Privatising assets is a priority for production use and requires a [paid Sanity plan](https://www.sanity.io/pricing).
 

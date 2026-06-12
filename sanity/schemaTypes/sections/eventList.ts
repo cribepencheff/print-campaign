@@ -1,8 +1,9 @@
 import { defineField, defineType } from "sanity";
+import { slugify } from "@/lib/utils";
 
 export const eventList = defineType({
   name: "eventList",
-  title: "Händelser (lista)",
+  title: "Turnédatum (lista)",
   type: "object",
   fields: [
     defineField({
@@ -16,19 +17,12 @@ export const eventList = defineType({
       type: "text",
       rows: 3,
     }),
-    defineField({
-      name: "events",
-      title: "Evenemang",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "event" }] }],
-      hidden: true,
-    }),
   ],
   preview: {
     select: { title: "heading" },
     prepare: ({ title }) => ({
-      title: `Händelser: ${title ? `: ${title}` : ""}`,
-      subtitle: `Alla evenemang`,
+      title: `Turnédatum: ${title ? `: ${title}` : ""}`,
+      subtitle: `ID: #${slugify(title ?? "")}`,
     }),
   },
 });

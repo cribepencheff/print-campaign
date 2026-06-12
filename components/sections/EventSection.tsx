@@ -1,49 +1,92 @@
-import Link from "next/link";
+"use client";
+
+import { motion } from "framer-motion";
+import { MapPin, MapPinOff } from "lucide-react";
+import { Button } from "@/components/Button";
+import { formatEventDate } from "@/lib/utils";
 import type { EventSection as EventSectionType } from "@/types/sections";
 
 export function EventSection({ section }: { section: EventSectionType }) {
   return (
-    <section className="py-16 px-8">
-      <div className="max-w-2xl">
+    <section className="bg-purplelight/60">
+      <div className="flex flex-col w-full container mx-auto">
         {section.heading && (
-          <h2 className="text-2xl font-bold mb-6">{section.heading}</h2>
+          <h2 className="text-4xl max-w-2xl font-bold mb-4">
+            {section.heading}
+          </h2>
         )}
         {section.description && (
-          <div className="prose prose-lg">
+          <div className="prose prose-lg not-md:prose-base">
             <p>{section.description}</p>
           </div>
         )}
 
         {section.events && (
-          <ul className="mt-8 space-y-4">
+          <motion.ul
+            className="mt-8"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={{
+              hidden: {},
+              visible: { transition: { staggerChildren: 0.08 } },
+            }}
+          >
             {section.events.map((event) => (
-              <li key={event._id} className="p-4 border rounded">
-                <p className="font-medium">{event.title}</p>
+              <motion.li
+                key={event._id}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: {
+                    opacity: 1,
+                    y: 0,
+                    transition: { duration: 0.4, ease: "easeOut" },
+                  },
+                }}
+                className="p-sp-xs rounded bg-white flex flex-row items-start md:items-center not-md:flex-wrap mb-sp-sm md:mb-sp-xs gap-y-sp-xs gap-x-sp-sm md:gap-x-sp-md"
+              >
                 {event.date && (
-                  <p className="text-sm text-gray-500">
-                    {new Date(event.date).toLocaleDateString("sv-SE", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </p>
-                )}
-                {event.location && (
-                  <>
-                    <p className="text-sm text-gray-500">{event.location}</p>
-                    <Link
+                  <div className="flex flex-col items-center md:w-14 ml-1 mb-0.75 not-md:mt-0.5 gap-0.5">
+                    <p className="heading text-sm tracking-wide leading-sp-sm">
+                      {formatEventDate(event.date).weekday}
+                    </p>
+
+                    <p className="heading text-2xl leading-sp-sm">
+                      {formatEventDate(event.date).date}/
+                      {formatEventDate(event.date).month}
+                    </p>
+                  </div>
+                )}{" "}
+                <div className="flex-1 text-sm">
+                  <p>{event.title}</p>
+                  <p className="opacity-60">{event.location}</p>
+                </div>
+                <div className="flex not-md:w-full not-md:justify-end">
+                  {event.location ? (
+                    <Button
+                      variant="accent"
+                      size="small"
                       href={`https://maps.google.com/?q=${encodeURIComponent(event.location)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
+                      targetBlank
+                      icon={<MapPin size={20} />}
+                      className="not-md:w-auto"
                     >
-                      Hitta hit
-                    </Link>
-                  </>
-                )}
-              </li>
+                      Karta
+                    </Button>
+                  ) : (
+                    <Button
+                      size="small"
+                      icon={<MapPinOff size={20} />}
+                      className="not-md:w-auto bg-red pointer-events-none"
+                      disabled
+                    >
+                      Karta
+                    </Button>
+                  )}
+                </div>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         )}
       </div>
     </section>

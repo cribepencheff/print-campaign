@@ -1,10 +1,11 @@
+import { ImagesIcon } from "lucide-react";
 import { defineField, defineType } from "sanity";
-import { slugify } from "@/lib/utils";
 
-export const fileUpload = defineType({
-  name: "fileUpload",
-  title: "Uppladdningsformulär",
+export const galleryPreview = defineType({
+  name: "galleryPreview",
+  title: "Galleri-preview",
   type: "object",
+  icon: ImagesIcon,
   fields: [
     defineField({
       name: "heading",
@@ -13,7 +14,7 @@ export const fileUpload = defineType({
     }),
     defineField({
       name: "description",
-      title: "Beskrivning / instruktioner",
+      title: "Beskrivning",
       type: "text",
       rows: 3,
     }),
@@ -21,8 +22,9 @@ export const fileUpload = defineType({
   preview: {
     select: { title: "heading" },
     prepare: ({ title }) => ({
-      title: `Filuppladdning: ${title ?? "-"}`,
-      subtitle: `ID: #${slugify(title ?? "")}`,
+      title: title ?? "Galleri-preview",
+      subtitle: "Visar bilder från galleriet",
+      media: ImagesIcon,
     }),
   },
 });

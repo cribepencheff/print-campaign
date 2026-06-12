@@ -1,8 +1,11 @@
+import { slugify } from "@/lib/utils";
 import type { Section } from "@/types/sections";
 import { EventSection } from "./sections/EventSection";
 import { FileUploadSection } from "./sections/FileUploadSection";
+import { GalleryPreviewSection } from "./sections/GalleryPreviewSection";
 import { HeroSection } from "./sections/HeroSection";
 import { NewsletterSection } from "./sections/NewsletterSection";
+import { StatementSection } from "./sections/StatementSection";
 import { TextSection } from "./sections/TextSection";
 
 type SectionRegistry = {
@@ -17,14 +20,26 @@ const registry: SectionRegistry = {
   eventList: EventSection,
   fileUpload: FileUploadSection,
   newsletter: NewsletterSection,
+  galleryPreview: GalleryPreviewSection,
+  statementSection: StatementSection,
 };
 
-export function SectionRenderer({ sections }: { sections: Section[] }) {
+function getSectionTitle(section: Section): string | undefined {
+  return "heading" in section ? (section as { heading?: string }).heading : undefined;
+}
+
+export function SectionRenderer({
+  sections,
+  pageType,
+}: {
+  sections: Section[];
+  pageType?: string;
+}) {
   return (
     <>
       {sections.map((section) => {
         const Component = registry[section._type] as
-          | React.ComponentType<{ section: Section }>
+          | React.ComponentType<{ section: Section; pageType?: string }>
           | undefined;
 
         if (!Component) {
@@ -35,15 +50,21 @@ export function SectionRenderer({ sections }: { sections: Section[] }) {
         // Special handling for FileUploadSection to pass hasNewsletter prop
         if (section._type === "fileUpload") {
           return (
-            <FileUploadSection
-              key={section._key}
-              section={section}
-              hasNewsletter={sections.some((s) => s._type === "newsletter")}
-            />
+            <div key={section._key} id={slugify(getSectionTitle(section)!)}>
+              <FileUploadSection
+                key={section._key}
+                section={section}
+                hasNewsletter={sections.some((s) => s._type === "newsletter")}
+              />
+            </div>
           );
         }
 
-        return <Component key={section._key} section={section} />;
+        return (
+          <div key={section._key} id={slugify(getSectionTitle(section)!)}>
+            <Component section={section} pageType={pageType} />
+          </div>
+        );
       })}
     </>
   );

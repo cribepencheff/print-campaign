@@ -34,16 +34,6 @@ export const event = defineType({
       title: "Plats",
       type: "string",
       description: 'T.ex. "Medborgarplatsen 29, 118 26 Stockholm"',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: "description",
-      title: "Beskrivning",
-      type: "text",
-      rows: 3,
-      initialValue: "Kom och tryck ditt eget plakat inför valet.",
-      validation: (Rule) =>
-        Rule.required().max(100).error("Plats får inte överstiga 100 tecken"),
     }),
   ],
   preview: {

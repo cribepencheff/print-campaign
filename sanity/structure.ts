@@ -19,13 +19,13 @@ export const structure: StructureResolver = (S) =>
       S.documentTypeListItem("page").title("Sidor").icon(Files),
 
       S.listItem()
-        .title("Gallerisida")
+        .title("Folkets tryck (sida)")
         .icon(Images)
         .child(
           S.document().schemaType("galleryPage").documentId("galleryPage")
         ),
 
-      S.documentTypeListItem("event").title("Händelser").icon(CalendarDays),
+      S.documentTypeListItem("event").title("Turnédatum").icon(CalendarDays),
 
       S.divider(),
 
