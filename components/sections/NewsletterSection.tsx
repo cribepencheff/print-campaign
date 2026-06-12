@@ -7,6 +7,7 @@ import {
   LoaderCircle,
   Megaphone,
 } from "lucide-react";
+import Link from "next/link";
 import { useEffect } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { Button } from "@/components/Button";
@@ -255,6 +256,14 @@ export function NewsletterSection({
             >
               {isSubmitting ? "Skickar…" : "Anmäl dig"}
             </Button>
+
+            <p className="text-xs text-center">
+              Läs vår{" "}
+              <Link href="/integritetspolicy" className="underline">
+                integritetspolicy
+              </Link>{" "}
+              för information om hur vi hanterar dina uppgifter.
+            </p>
           </form>
         </div>
       </section>
