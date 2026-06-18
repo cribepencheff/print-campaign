@@ -25,7 +25,9 @@ const registry: SectionRegistry = {
 };
 
 function getSectionTitle(section: Section): string | undefined {
-  return "heading" in section ? (section as { heading?: string }).heading : undefined;
+  return "heading" in section
+    ? (section as { heading?: string }).heading
+    : undefined;
 }
 
 export function SectionRenderer({
@@ -50,7 +52,11 @@ export function SectionRenderer({
         // Special handling for FileUploadSection to pass hasNewsletter prop
         if (section._type === "fileUpload") {
           return (
-            <div key={section._key} id={slugify(getSectionTitle(section)!)}>
+            <div
+              key={section._key}
+              id={slugify(getSectionTitle(section)!)}
+              className={section._type}
+            >
               <FileUploadSection
                 key={section._key}
                 section={section}
@@ -61,7 +67,11 @@ export function SectionRenderer({
         }
 
         return (
-          <div key={section._key} id={slugify(getSectionTitle(section)!)}>
+          <div
+            key={section._key}
+            id={slugify(getSectionTitle(section)!)}
+            className={section._type}
+          >
             <Component section={section} pageType={pageType} />
           </div>
         );

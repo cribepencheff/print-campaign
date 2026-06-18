@@ -33,7 +33,7 @@ export function StatementSection({
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.55", "end 0.6"],
+    offset: ["start 0.55", "end 0.8"],
   });
 
   const words = section.text.split(" ");

@@ -17,6 +17,11 @@ export const newsletterSchema = z.object({
       },
       { message: "Ogiltigt telefonnummer." }
     ),
+  consent: z
+    .boolean()
+    .refine((val) => val === true, {
+      message: "Du måste godkänna för att anmäla dig.",
+    }),
 });
 
 export type NewsletterFormValues = z.infer<typeof newsletterSchema>;

@@ -1,10 +1,12 @@
+import type { PortableTextBlock } from "next-sanity";
 import { SiInstagram } from "react-icons/si";
 import { Button } from "@/components/Button";
+import { RichText } from "@/components/RichText";
 import { sanityFetch } from "@/sanity/lib/fetch";
 import { FOOTER_QUERY } from "@/sanity/lib/queries";
 
 export async function Footer() {
-  const data = await sanityFetch<{ footerText?: string }>({
+  const data = await sanityFetch<{ footerText?: Array<PortableTextBlock> }>({
     query: FOOTER_QUERY,
     tags: ["settings"],
   });
@@ -13,7 +15,7 @@ export async function Footer() {
     <footer className="bg-black text-white">
       <div className="grid lg:grid-cols-[4fr_2fr] gap-sp-xl max-w-container mx-auto">
         <div>
-          <h3 className="flex iwhitespace-pre-line tems-center gap-sp-sm heading text-xl leading-none mb-sp-sm">
+          <h3 className="flex items-center gap-sp-sm heading text-xl leading-none mb-sp-sm">
             {/* eslint-disable-next-line @next/next/no-img-element -- SVG, next/image doesn't support it */}
             <img
               src="/brand/logo_v2.svg"
@@ -25,9 +27,9 @@ export async function Footer() {
           </h3>
 
           {data?.footerText && (
-            <p className="whitespace-pre-line text-white/70 leading-relaxed text-sm">
-              {data.footerText}
-            </p>
+            <div className="prose prose-xs text-white/70 leading-relaxed">
+              <RichText value={data?.footerText} />
+            </div>
           )}
         </div>
 

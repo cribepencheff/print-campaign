@@ -12,13 +12,13 @@ export function TextSection({ section }: { section: TextSectionType }) {
   const align = section.alignment === "center" ? "text-center mx-auto" : "";
 
   return (
-    <section className={`py-16 px-8 ${bg}`}>
-      <div className={`max-w-2xl ${align}`}>
+    <section className={bg}>
+      <div className={`flex flex-col w-full container mx-auto ${align}`}>
         {section.heading && (
-          <h2 className="text-2xl font-bold mb-6">{section.heading}</h2>
+          <h2 className="text-4xl max-w-2xl mb-4">{section.heading}</h2>
         )}
         {section.description && (
-          <div className="prose prose-lg">
+          <div className="prose prose-lg not-md:prose-base">
             <RichText value={section.description} />
           </div>
         )}

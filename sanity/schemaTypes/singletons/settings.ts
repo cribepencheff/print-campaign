@@ -49,7 +49,11 @@ export const settings = defineType({
               hidden: ({ parent }) => parent?.linkType !== "intern",
               validation: (r) =>
                 r.custom((value, ctx) => {
-                  if ((ctx.parent as { linkType?: string })?.linkType === "intern" && !value) {
+                  if (
+                    (ctx.parent as { linkType?: string })?.linkType ===
+                      "intern" &&
+                    !value
+                  ) {
                     return "Välj en sida";
                   }
                   return true;
@@ -59,18 +63,25 @@ export const settings = defineType({
               name: "externalUrl",
               title: "Länk",
               type: "string",
-              description: 'T.ex. "https://example.com", "#sektion" eller "/annan-sida"',
+              description:
+                'T.ex. "https://example.com", "#sektion" eller "/annan-sida"',
               hidden: ({ parent }) => parent?.linkType !== "extern",
               validation: (r) =>
                 r.custom((value, ctx) => {
-                  if ((ctx.parent as { linkType?: string })?.linkType !== "extern") return true;
+                  if (
+                    (ctx.parent as { linkType?: string })?.linkType !== "extern"
+                  )
+                    return true;
                   if (!value) return "Ange en länk";
                   const isValid =
                     value.startsWith("http://") ||
                     value.startsWith("https://") ||
                     value.startsWith("#") ||
                     value.startsWith("/");
-                  return isValid || 'Länken måste börja med "https://", "#" eller "/"';
+                  return (
+                    isValid ||
+                    'Länken måste börja med "https://", "#" eller "/"'
+                  );
                 }),
             }),
           ],
@@ -111,7 +122,7 @@ export const settings = defineType({
     defineField({
       name: "footerText",
       title: "Footer-text",
-      type: "text",
+      type: "simpleBlockContent",
       group: "footer",
       description: "Kort text eller tagline som visas i footern.",
     }),

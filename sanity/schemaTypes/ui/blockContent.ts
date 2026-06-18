@@ -25,7 +25,7 @@ const blockMembers = [
           name: "link",
           type: "object",
           fields: [
-            { title: "URL", name: "href", type: "url" },
+            { title: "URL", name: "href", type: "string" },
             { title: "Öppna i ny flik", name: "blank", type: "boolean" },
           ],
         },

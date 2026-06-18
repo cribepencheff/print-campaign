@@ -16,7 +16,9 @@ Most Next.js + Sanity projects are straightforward content sites. This one has a
 
 **Free-tier constraints drove architecture.** Sanity's free plan does not support private assets. Uploaded files are technically reachable via CDN URL if someone knows the link. This is documented as a known limitation. Privatising assets is listed as a priority for production use and requires upgrading to a paid Sanity plan.
 
-**`approved` collapses two admin steps into one.** Submissions go through a physical test print before being approved. There is no separate "ready for print" status. Approving a submission and publishing it to the gallery is a single admin action. This reduces friction for a small team.
+**Approval and publishing are separate steps.** Submissions go through a physical test print before being approved. `status` (`pending` / `approved` / `rejected`) tracks the review decision. A separate `isPublished` boolean controls gallery visibility, since an approved motive isn't necessarily printed and added to the gallery yet. This mirrors the organisation's actual workflow: review and print happen at different times.
+
+**Newsletter opt-in requires explicit consent.** Subscribing requires checking a consent checkbox in addition to providing an email address, validated client- and server-side.
 
 ---
 
@@ -38,6 +40,7 @@ Most Next.js + Sanity projects are straightforward content sites. This one has a
 The platform follows a JAMstack pattern: a statically generated frontend, a headless CMS for content and assets, and serverless API routes for write operations.
 
 ```mermaid
+%%{init: {'theme':'base'}}%%
 graph TD
     Visitor([Visitor])
     Admin([Admin])
@@ -52,6 +55,18 @@ graph TD
     Next -->|"reads / writes"| Sanity
     Next -->|"opt-in contact"| Brevo
     Next -->|"hosted on"| Vercel
+
+    classDef actor fill:#ECECFF,stroke:#9370DB,stroke-width:1px
+    classDef app fill:#E8F4FD,stroke:#4A90D9,stroke-width:1px
+    classDef sanity fill:#FFF4E0,stroke:#E8A33D,stroke-width:1px
+    classDef brevo fill:#E3F6E8,stroke:#3DA563,stroke-width:1px
+    classDef vercel fill:#F0F0F0,stroke:#666666,stroke-width:1px
+
+    class Visitor,Admin actor
+    class Next app
+    class Sanity sanity
+    class Brevo brevo
+    class Vercel vercel
 ```
 
 ---
@@ -61,9 +76,10 @@ graph TD
 The upload flow is the core of the platform's GDPR design. Personal data and image data travel separate paths and are never co-located.
 
 ```mermaid
+%%{init: {'theme':'base'}}%%
 flowchart TD
     A([Visitor submits form])
-    B["Server-side validation\nPNG / JPG / PDF · max 5 MB"]
+    B["Server-side validation\nPNG / JPG · max 5 MB"]
     C["Asset → Sanity CDN\nstatus: pending · isPublished: false"]
     D{Email provided?}
     E["contributorId =\n'Har ej angett kontaktuppgifter'"]
@@ -73,11 +89,25 @@ flowchart TD
     A --> B --> C --> D
     D -->|No| E
     D -->|Yes| F --> G
+
+    classDef actor fill:#ECECFF,stroke:#9370DB,stroke-width:1px
+    classDef app fill:#E8F4FD,stroke:#4A90D9,stroke-width:1px
+    classDef sanity fill:#FFF4E0,stroke:#E8A33D,stroke-width:1px
+    classDef brevo fill:#E3F6E8,stroke:#3DA563,stroke-width:1px
+    classDef neutral fill:#F0F0F0,stroke:#666666,stroke-width:1px
+
+    class A actor
+    class B,C app
+    class D neutral
+    class E neutral
+    class F sanity
+    class G brevo
 ```
 
 Once a motive is approved, the organisation can identify the contributor by matching the `contributorId` on the Sanity document against the `CONTRIBUTOR_ID` attribute on the Brevo contact. No personal data needs to leave Brevo to make this connection.
 
 ```mermaid
+%%{init: {'theme':'base'}}%%
 flowchart LR
     A["Sanity document\ncontributorId: a3f9c2d1e4b8"]
     B["Brevo contact\nCONTRIBUTOR_ID: a3f9c2d1e4b8"]
@@ -85,6 +115,14 @@ flowchart LR
 
     A -->|same hash| C
     B -->|same hash| C
+
+    classDef sanity fill:#FFF4E0,stroke:#E8A33D,stroke-width:1px
+    classDef brevo fill:#E3F6E8,stroke:#3DA563,stroke-width:1px
+    classDef actor fill:#ECECFF,stroke:#9370DB,stroke-width:1px
+
+    class A sanity
+    class B brevo
+    class C actor
 ```
 
 ---
@@ -97,6 +135,7 @@ flowchart LR
 | `contributorId`            | Sanity document  | SHA-256 hash, cannot be reversed                |
 | Email address              | Brevo only       | Never written to Sanity                         |
 | First name                 | Brevo only       | Optional, never written to Sanity               |
+| Newsletter consent          | Required at signup | Explicit checkbox, validated client + server  |
 | Double opt-in confirmation | Brevo automation | Two-automation pattern for instant confirmation |
 
 ### Contributor matching
@@ -104,6 +143,7 @@ flowchart LR
 If the organisation needs to identify who submitted a specific motive, for example to notify a contributor that their design was selected, an admin cross-references the `contributorId` stored on the Sanity document against the matching contact in Brevo. No personal data ever needs to leave Brevo to make this connection.
 
 ```mermaid
+%%{init: {'theme':'base'}}%%
 flowchart LR
     A["Sanity document
 contributorId: a3f9c2d1e4b8"]
@@ -113,6 +153,14 @@ CONTRIBUTOR_ID: a3f9c2d1e4b8"]
 
     A -->|same hash| C
     B -->|same hash| C
+
+    classDef sanity fill:#FFF4E0,stroke:#E8A33D,stroke-width:1px
+    classDef brevo fill:#E3F6E8,stroke:#3DA563,stroke-width:1px
+    classDef actor fill:#ECECFF,stroke:#9370DB,stroke-width:1px
+
+    class A sanity
+    class B brevo
+    class C actor
 ```
 
 ---
@@ -176,6 +224,10 @@ yarn deploy     # Build locally and deploy prebuilt output to Vercel
 
 **Brevo sending limit.** ~9,000 emails/month on the free plan. Sufficient for a campaign newsletter but worth monitoring if the subscriber list grows quickly. See [Brevo pricing](https://www.brevo.com/pricing/).
 
+**Homepage uses a reserved slug, not a singleton.** The homepage is a regular `page` document with the reserved slug `"home"`, rendered at the index route (`/`). This was a deliberate choice over a dedicated `homepage` singleton: it allows drafting multiple homepage variants and switching the active one by changing the slug, which suits a campaign platform that may want to test different landing pages. The trade-off is that nothing in the schema prevents an admin from accidentally renaming the `home` slug; this is mitigated with a field description in Studio. The URL `/home` itself returns a 404, since it would otherwise collide with `/`.
+
+**Gallery page uses the same dynamic route as content pages.** There is no dedicated `/gallery` route. The gallery is a `galleryPage` document type, matched by `[slug]/page.tsx` alongside regular `page` documents, with a `documentId`-locked singleton in Studio. If no slug is set, it falls back to `"galleri"`.
+
 ---
 
 ## Project structure
@@ -184,8 +236,7 @@ yarn deploy     # Build locally and deploy prebuilt output to Vercel
 app/
   (main)/          # Public-facing pages
     page.tsx       # Home, content driven by Sanity slug "home"
-    [slug]/        # Dynamic pages
-    gallery/       # Gallery page
+    [slug]/        # Dynamic pages and the gallery (galleryPage doc type)
   api/
     upload/        # POST: validates file, creates Sanity doc, calls Brevo
     newsletter/    # POST: subscribes contact to Brevo newsletter list
@@ -197,11 +248,12 @@ components/
 lib/
   brevo.ts         # saveUploadContact, subscribeNewsletter
   upload.ts        # Shared file validation constants
+  utils.ts         # slugify and other shared helpers
   schemas/         # Zod schemas, shared between client and API routes
 
 sanity/
   schemaTypes/     # documents/, sections/, singletons/, ui/
-  structure.ts     # Studio structure: Pending / Approved / Rejected nodes
+  structure.ts     # Studio structure: Pending / Approved / Rejected nodes, singletons
   lib/queries.ts   # All GROQ queries, no query logic in components
 
 __tests__/         # Jest tests for API routes
