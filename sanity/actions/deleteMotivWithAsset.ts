@@ -1,6 +1,13 @@
 import { useState } from "react";
 import type { DocumentActionComponent, DocumentActionProps } from "sanity";
 import { useClient } from "sanity";
+import {
+  getAssetId,
+  getBaseId,
+  REFERENCING_DOCS_QUERY,
+  shouldDeleteAsset,
+  VERSION_IDS_QUERY,
+} from "./deleteMotivWithAsset.logic";
 
 export const deleteMotivWithAsset: DocumentActionComponent = (
   props: DocumentActionProps,
@@ -23,18 +30,15 @@ export const deleteMotivWithAsset: DocumentActionComponent = (
         setConfirmOpen(false);
 
         const doc = draft ?? published;
-        const assetId = (
-          doc?.asset as { asset?: { _ref?: string } } | undefined
-        )?.asset?._ref;
-
-        const baseId = id.startsWith("drafts.")
-          ? id.slice("drafts.".length)
-          : id;
-
-        const versionIds: string[] = await client.fetch(
-          `*[_id in path("drafts." + $baseId) || _id in path("versions.*." + $baseId)]._id`,
-          { baseId },
+        const assetId = getAssetId(
+          doc as { asset?: { asset?: { _ref?: string } } } | undefined,
         );
+
+        const baseId = getBaseId(id);
+
+        const versionIds: string[] = await client.fetch(VERSION_IDS_QUERY, {
+          baseId,
+        });
 
         await actionsClient.action({
           actionType: "sanity.action.document.delete",
@@ -44,10 +48,10 @@ export const deleteMotivWithAsset: DocumentActionComponent = (
 
         if (assetId) {
           const referencingDocs = await client.fetch(
-            `count(*[references($assetId)])`,
+            REFERENCING_DOCS_QUERY,
             { assetId },
           );
-          if (referencingDocs === 0) {
+          if (shouldDeleteAsset(referencingDocs)) {
             await client.delete(assetId).catch(() => {});
           }
         }

@@ -54,6 +54,25 @@ describe("Form validation", () => {
         email: "anna@example.com",
         firstName: "Anna",
         phone: "12345",
+        consent: true,
+      })
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 400 if consent is missing", async () => {
+    const res = await POST(
+      makeRequest({ email: "anna@example.com", firstName: "Anna" })
+    );
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 400 if consent is false", async () => {
+    const res = await POST(
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: false,
       })
     );
     expect(res.status).toBe(400);
@@ -72,7 +91,11 @@ describe("Form validation", () => {
 describe("Successful subscription", () => {
   it("returns 200 for valid email and firstName", async () => {
     const res = await POST(
-      makeRequest({ email: "anna@example.com", firstName: "Anna" })
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: true,
+      })
     );
     expect(res.status).toBe(200);
     const body = await res.json();
@@ -80,7 +103,13 @@ describe("Successful subscription", () => {
   });
 
   it("calls subscribeNewsletter with correct email and firstName", async () => {
-    await POST(makeRequest({ email: "anna@example.com", firstName: "Anna" }));
+    await POST(
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: true,
+      })
+    );
     expect(subscribeNewsletter).toHaveBeenCalledWith(
       "anna@example.com",
       "Anna",
@@ -94,6 +123,7 @@ describe("Successful subscription", () => {
         email: "anna@example.com",
         firstName: "Anna",
         lastName: "Svensson",
+        consent: true,
       })
     );
     expect(subscribeNewsletter).toHaveBeenCalledWith(
@@ -104,7 +134,13 @@ describe("Successful subscription", () => {
   });
 
   it("does not send lastName to Brevo when omitted", async () => {
-    await POST(makeRequest({ email: "anna@example.com", firstName: "Anna" }));
+    await POST(
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: true,
+      })
+    );
     expect(subscribeNewsletter).toHaveBeenCalledWith(
       "anna@example.com",
       "Anna",
@@ -118,6 +154,7 @@ describe("Successful subscription", () => {
         email: "anna@example.com",
         firstName: "Anna",
         phone: "0701234567",
+        consent: true,
       })
     );
     expect(subscribeNewsletter).toHaveBeenCalledWith(
@@ -128,7 +165,13 @@ describe("Successful subscription", () => {
   });
 
   it("does not send phone to Brevo when omitted", async () => {
-    await POST(makeRequest({ email: "anna@example.com", firstName: "Anna" }));
+    await POST(
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: true,
+      })
+    );
     expect(subscribeNewsletter).toHaveBeenCalledWith(
       "anna@example.com",
       "Anna",
@@ -144,7 +187,11 @@ describe("Brevo errors", () => {
       new Error("Brevo down")
     );
     const res = await POST(
-      makeRequest({ email: "anna@example.com", firstName: "Anna" })
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: true,
+      })
     );
     expect(res.status).toBe(500);
   });
@@ -154,7 +201,11 @@ describe("Brevo errors", () => {
       new Error("BREVO_PENDING_LIST_ID missing in environment variables")
     );
     const res = await POST(
-      makeRequest({ email: "anna@example.com", firstName: "Anna" })
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: true,
+      })
     );
     expect(res.status).toBe(500);
   });
