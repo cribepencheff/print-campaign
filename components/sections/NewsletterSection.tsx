@@ -134,6 +134,7 @@ export function NewsletterSection({
         firstName: values.firstName,
         lastName: values.lastName || undefined,
         phone: normalizedPhone,
+        consent: values.consent,
       }),
     });
 
