@@ -8,9 +8,11 @@ import { svSELocale } from "@sanity/locale-sv-se";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
+import { media } from "sanity-plugin-media";
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from "./sanity/env";
+import { deleteMotivWithAsset } from "./sanity/actions/deleteMotivWithAsset";
 import { schema } from "./sanity/schemaTypes";
 import { structure } from "./sanity/structure";
 
@@ -25,6 +27,18 @@ export default defineConfig({
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
+    media(),
     svSELocale(),
   ],
+  document: {
+    // För "motiv": ersätt standard-Delete med en variant som även städar bort
+    // bild-asseten om den blir orefererad. Övriga dokumenttyper är opåverkade.
+    actions: (prev, context) =>
+      context.schemaType === "motiv"
+        ? [
+            deleteMotivWithAsset,
+            ...prev.filter((action) => action.action !== "delete"),
+          ]
+        : prev,
+  },
 });
