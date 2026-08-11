@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
   // Anonymous contribution, contributorId is the only identifier connected to the upload.
   try {
     await writeClient.create({
-      _type: "motiv",
+      _type: "motiveSubmission",
       asset: {
         _type: "image",
         asset: { _type: "reference", _ref: uploadedAsset._id },

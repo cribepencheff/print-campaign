@@ -1,7 +1,7 @@
 import { defineField, defineType } from "sanity";
 
 export const motiveSubmission = defineType({
-  name: "motiv",
+  name: "motiveSubmission",
   title: "Motiv",
   type: "document",
   orderings: [

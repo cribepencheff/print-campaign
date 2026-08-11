@@ -31,10 +31,11 @@ export default defineConfig({
     svSELocale(),
   ],
   document: {
-    // För "motiv": ersätt standard-Delete med en variant som även städar bort
-    // bild-asseten om den blir orefererad. Övriga dokumenttyper är opåverkade.
+    // För "motiveSubmission": ersätt standard-Delete med en variant som även
+    // städar bort bild-asseten om den blir orefererad. Övriga dokumenttyper
+    // är opåverkade.
     actions: (prev, context) =>
-      context.schemaType === "motiv"
+      context.schemaType === "motiveSubmission"
         ? [
             deleteMotivWithAsset,
             ...prev.filter((action) => action.action !== "delete"),
