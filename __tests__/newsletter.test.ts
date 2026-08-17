@@ -16,7 +16,7 @@ function makeRequest(body: unknown): NextRequest {
 
 beforeEach(() => {
   jest.clearAllMocks();
-  (subscribeNewsletter as jest.Mock).mockResolvedValue(undefined);
+  (subscribeNewsletter as jest.Mock).mockResolvedValue("new");
 
   // Hide expected console errors in test output
   jest.spyOn(console, "error").mockImplementation(() => {});
@@ -100,6 +100,19 @@ describe("Successful subscription", () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body.success).toBe(true);
+  });
+
+  it("returns the subscription status from subscribeNewsletter in the response", async () => {
+    (subscribeNewsletter as jest.Mock).mockResolvedValueOnce("confirmed");
+    const res = await POST(
+      makeRequest({
+        email: "anna@example.com",
+        firstName: "Anna",
+        consent: true,
+      })
+    );
+    const body = await res.json();
+    expect(body.status).toBe("confirmed");
   });
 
   it("calls subscribeNewsletter with correct email and firstName", async () => {

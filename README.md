@@ -186,8 +186,11 @@ SANITY_API_WRITE_TOKEN=
 
 BREVO_API_KEY=
 BREVO_PENDING_LIST_ID=
+BREVO_NEWSLETTER_LIST_ID=
 BREVO_CONTRIBUTORS_LIST_ID=
 ```
+
+**Vercel's Environment Variables dashboard is not the source of truth for this project.** Deploys are built locally (see "Deployments run via CLI" below), and Next.js loads `.env.local` directly from the filesystem during that build, independent of whatever is configured in Vercel's dashboard. In practice this means the values that end up live in production are whatever is in the local `.env.local` file at the time someone runs `yarn deploy`, not what's set in Vercel's project settings. The dashboard may be empty or outdated and production can still work correctly. This is a known single-point-of-failure: if `.env.local` is lost, or a deploy is ever run from a different machine without it, production secrets go missing silently. There is no redundant copy of these values in Vercel itself.
 
 `.env.test` is committed to the repository and contains mock values used by Jest. No setup needed to run the test suite.
 
@@ -216,7 +219,7 @@ yarn deploy     # Build locally and deploy prebuilt output to Vercel
 
 ## Constraints & decisions
 
-**Deployments run via CLI, not git push.** `yarn deploy` runs `vercel build --prod && vercel deploy --prebuilt --prod`. The build happens locally and only the output is uploaded. Vercel never runs a build on their end. This keeps the project well within Vercel Hobby's 200 build execution hours per month, which is consumed by every git-push-triggered build. Deployments via CLI typically complete in ~13 seconds.
+**Deployments run via CLI, not git push.** `yarn deploy` runs `vercel build --prod && vercel deploy --prebuilt --prod`. The build happens locally and only the output is uploaded. Vercel never runs a build on their end. This keeps the project well within Vercel Hobby's 200 build execution hours per month, which is consumed by every git-push-triggered build. Deployments via CLI typically complete in ~13 seconds. A direct consequence: production environment variables come from the local `.env.local` file at build time, not from Vercel's dashboard. See "Environment variables" above.
 
 **Asset visibility.** Sanity's free plan does not support private assets (`visibility: private`). Uploaded files are accessible via CDN URL if someone knows the link. This is an accepted trade-off for the current scope. Privatising assets is a priority for production use and requires a [paid Sanity plan](https://www.sanity.io/pricing).
 

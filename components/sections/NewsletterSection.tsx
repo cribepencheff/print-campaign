@@ -8,7 +8,7 @@ import {
   Megaphone,
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
@@ -64,6 +64,16 @@ function FormError({ message }: { message: string }) {
   );
 }
 
+type NewsletterStatus = "new" | "pending" | "confirmed";
+
+const thankYouMessage: Record<NewsletterStatus, string> = {
+  new: "Tack! Kolla din inkorg för att bekräfta.",
+  pending:
+    "Du har redan fått ett bekräftelsemail tidigare. Kolla inkorgen (och skräpposten).",
+  confirmed:
+    "Du är redan prenumerant, inget mer att göra. Ångrat en avanmälan? Du behöver inte bekräfta igen.",
+};
+
 function readPrefill(): { email: string; firstName: string } {
   try {
     const raw = sessionStorage.getItem("newsletter-prefill");
@@ -81,6 +91,8 @@ export function NewsletterSection({
   section: NewsletterSectionType;
 }) {
   const { heading, description } = section;
+
+  const [status, setStatus] = useState<NewsletterStatus>("new");
 
   const {
     register,
@@ -138,7 +150,10 @@ export function NewsletterSection({
       }),
     });
 
-    const data = (await res.json()) as { error?: string };
+    const data = (await res.json()) as {
+      error?: string;
+      status?: NewsletterStatus;
+    };
 
     if (!res.ok) {
       setError("root", {
@@ -147,6 +162,7 @@ export function NewsletterSection({
       return;
     }
 
+    setStatus(data.status ?? "new");
     sessionStorage.removeItem("newsletter-prefill");
   }
 
@@ -162,10 +178,7 @@ export function NewsletterSection({
             size={48}
             className="mx-auto text-red/60 animate-pulse"
           />
-          <p>
-            Du kommer att få ett bekräftelsemail om du inte redan prenumererar.
-            Välkommen!
-          </p>
+          <p>{thankYouMessage[status]}</p>
         </div>
       </Modal>
 
