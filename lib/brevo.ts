@@ -24,6 +24,7 @@ export async function saveUploadContact(
     attributes,
     listIds: contributorsListId ? [Number(contributorsListId)] : undefined,
     updateEnabled: true,
+    emailBlacklisted: false,
   });
 }
 
@@ -47,5 +48,6 @@ export async function subscribeNewsletter(
     attributes,
     listIds: [Number(pendingListId)],
     updateEnabled: true,
+    emailBlacklisted: false,
   });
 }
