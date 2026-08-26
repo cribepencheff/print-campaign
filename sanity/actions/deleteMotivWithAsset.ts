@@ -9,8 +9,8 @@ import {
   VERSION_IDS_QUERY,
 } from "./deleteMotivWithAsset.logic";
 
-export const deleteMotivWithAsset: DocumentActionComponent = (
-  props: DocumentActionProps,
+const DeleteMotivWithAsset: DocumentActionComponent = (
+  props: DocumentActionProps
 ) => {
   const { id, published, draft } = props;
   const client = useClient({ apiVersion: "2026-05-25" });
@@ -31,7 +31,7 @@ export const deleteMotivWithAsset: DocumentActionComponent = (
 
         const doc = draft ?? published;
         const assetId = getAssetId(
-          doc as { asset?: { asset?: { _ref?: string } } } | undefined,
+          doc as { asset?: { asset?: { _ref?: string } } } | undefined
         );
 
         const baseId = getBaseId(id);
@@ -47,10 +47,9 @@ export const deleteMotivWithAsset: DocumentActionComponent = (
         });
 
         if (assetId) {
-          const referencingDocs = await client.fetch(
-            REFERENCING_DOCS_QUERY,
-            { assetId },
-          );
+          const referencingDocs = await client.fetch(REFERENCING_DOCS_QUERY, {
+            assetId,
+          });
           if (shouldDeleteAsset(referencingDocs)) {
             await client.delete(assetId).catch(() => {});
           }
@@ -61,3 +60,5 @@ export const deleteMotivWithAsset: DocumentActionComponent = (
     },
   };
 };
+
+export const deleteMotivWithAsset = DeleteMotivWithAsset;
