@@ -24,11 +24,11 @@ export async function POST(req: NextRequest) {
     : undefined;
 
   try {
-    await subscribeNewsletter(email, firstName, {
+    const status = await subscribeNewsletter(email, firstName, {
       lastName: lastName || undefined,
       phone: normalizedPhone,
     });
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, status });
   } catch (err) {
     console.error("Brevo subscribeNewsletter misslyckades:", err);
     return NextResponse.json(

@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { useForm, type UseFormRegisterReturn } from "react-hook-form";
 import { Button } from "@/components/Button";
 import { Modal } from "@/components/Modal";
+import { RichText } from "@/components/RichText";
 import {
   uploadSchema,
   type UploadFormValues,
@@ -310,11 +311,12 @@ export function FileUploadSection({
                 placeholder="Förnamn"
                 registration={register("firstName")}
               />
-              <p className="text-xs">
-                Uppladdning sker anonymt. Kontaktuppgifter lagras inte i vårt
-                bildarkiv och används enbart för att kunna nå dig om ditt bidrag
-                väljs ut.
-              </p>
+              {section.privacyNotice && (
+                <div className="prose text-xs">
+                  <RichText value={section.privacyNotice} />
+                </div>
+              )}
+
               {submitError && (
                 <FormError key={submitErrorKey} message={submitError} />
               )}

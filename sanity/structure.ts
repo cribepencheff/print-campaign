@@ -33,9 +33,9 @@ export const structure: StructureResolver = (S) =>
         .title("Motiv / Inkomna")
         .icon(CircleDashedIcon)
         .child(
-          S.documentTypeList("motiv")
+          S.documentTypeList("motiveSubmission")
             .title("Motiv / Inkomna")
-            .filter('_type == "motiv" && status == $status')
+            .filter('_type == "motiveSubmission" && status == $status')
             .params({ status: "pending" })
             .apiVersion(apiVersion)
         ),
@@ -43,9 +43,9 @@ export const structure: StructureResolver = (S) =>
         .title("Motiv / Godkända")
         .icon(SmileIcon)
         .child(
-          S.documentTypeList("motiv")
+          S.documentTypeList("motiveSubmission")
             .title("Motiv / Godkända")
-            .filter('_type == "motiv" && status == $status')
+            .filter('_type == "motiveSubmission" && status == $status')
             .params({ status: "approved" })
             .apiVersion(apiVersion)
         ),
@@ -53,9 +53,9 @@ export const structure: StructureResolver = (S) =>
         .title("Motiv / Nekad")
         .icon(CircleMinusIcon)
         .child(
-          S.documentTypeList("motiv")
+          S.documentTypeList("motiveSubmission")
             .title("Motiv / Nekad")
-            .filter('_type == "motiv" && status == $status')
+            .filter('_type == "motiveSubmission" && status == $status')
             .params({ status: "rejected" })
             .apiVersion(apiVersion)
         ),

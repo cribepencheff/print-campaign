@@ -1,3 +1,5 @@
+import { groq } from "next-sanity";
+
 /**
  * Alla GROQ-queries samlas här.
  * Pages importerar queries härifrån och skickar dem till sanityFetch().
@@ -5,7 +7,7 @@
  */
 
 // Startsida — "home"-sluggen renderas som index-routen (/)
-export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0]{
+export const PAGE_BY_SLUG_QUERY = groq`*[_type == "page" && slug.current == $slug][0]{
   _type,
   title,
   slug,
@@ -28,7 +30,7 @@ export const PAGE_BY_SLUG_QUERY = `*[_type == "page" && slug.current == $slug][0
 
 // Dynamisk route — matchar page och galleryPage på slug
 // coalesce ger galleryPage fallback "galleri" om slug saknas på befintligt dokument
-export const DOCUMENT_BY_SLUG_QUERY = `*[
+export const DOCUMENT_BY_SLUG_QUERY = groq`*[
   (_type == "page" || _type == "galleryPage") &&
   coalesce(slug.current, "galleri") == $slug
 ][0]{
@@ -41,16 +43,16 @@ export const DOCUMENT_BY_SLUG_QUERY = `*[
 }`;
 
 // Footer-data från settings-singleton
-export const FOOTER_QUERY = `*[_type == "settings"][0]{ footerText }`;
+export const FOOTER_QUERY = groq`*[_type == "settings"][0]{ footerText }`;
 
 // Globala inställningar — singleton
-export const SETTINGS_QUERY = `*[_type == "settings"][0]{
+export const SETTINGS_QUERY = groq`*[_type == "settings"][0]{
   siteTitle,
   description
 }`;
 
 // Navigationslänkar — hämtas i layout
-export const NAV_QUERY = `*[_type == "settings"][0]{
+export const NAV_QUERY = groq`*[_type == "settings"][0]{
   "links": navigationLinks[] {
     label,
     "href": select(
@@ -62,7 +64,7 @@ export const NAV_QUERY = `*[_type == "settings"][0]{
 }`;
 
 // Metadata (titel) för dynamiska slug-sidor
-export const METADATA_BY_SLUG_QUERY = `*[
+export const METADATA_BY_SLUG_QUERY = groq`*[
   (_type == "page" || _type == "galleryPage") &&
   coalesce(slug.current, "galleri") == $slug
 ][0]{ title }`;
@@ -70,7 +72,7 @@ export const METADATA_BY_SLUG_QUERY = `*[
 // Alla slugs för generateStaticParams
 // Exkluderar "home" — det är index-routen (/), inte en /[slug]-sida
 // coalesce ger galleryPage fallback "galleri" om slug saknas på befintligt dokument
-export const ALL_SLUGS_QUERY = `*[
+export const ALL_SLUGS_QUERY = groq`*[
   (_type == "page" && defined(slug.current) && slug.current != "home") ||
   _type == "galleryPage"
 ]{ "slug": coalesce(slug.current, "galleri") }.slug`;

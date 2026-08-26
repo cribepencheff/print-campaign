@@ -49,6 +49,7 @@ export type FileUploadSection = {
   _key: string;
   heading?: string;
   description?: string;
+  privacyNotice?: PortableTextBlock[];
 };
 
 export type NewsletterSection = {
