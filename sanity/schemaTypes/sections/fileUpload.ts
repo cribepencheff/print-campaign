@@ -17,6 +17,11 @@ export const fileUpload = defineType({
       type: "text",
       rows: 3,
     }),
+    defineField({
+      name: "privacyNotice",
+      title: "Text om personuppgifter",
+      type: "simpleBlockContent",
+    }),
   ],
   preview: {
     select: { title: "heading" },
